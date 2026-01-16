@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'dist/styles.css' %}">
+    <title>{% block title %}Konstatninos Droulias - Portfolio{% endblock %}</title>
+</head>
+<body class="flex flex-col space-y-16 min-h-screen">
+
+{% include "header.html" %}
+
+<main class="container mx-auto px-4 flex-grow">
+    {% block main %}
+    <!-- default content if none is provided -->
+    {% endblock %}
+</main>
+
+{% include "footer.html" %}
+
+</body>
+</html>

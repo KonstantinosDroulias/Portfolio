@@ -1,0 +1,17 @@
+<header class="bg-blue-200">
+    <nav class="container mx-auto p-4 navbar navbar-expand-lg navbar-light bg-light flex justify-between align-items-center">
+        <div class="flex items-center gap-10">
+            <a href="{% url 'index' %}">Konstantinos Droulias</a>
+
+            <form action="{% url 'search' %}" method="GET">
+                <input class="border-b-1 rounded-sm px-2 py-1 text-sm/2.0 min-w-[260px]" type="text" placeholder="Search..." name="search">
+            </form>
+        </div>
+
+        <div class="flex items-center gap-4">
+            <a href="{% url 'projects' %}">My Projects</a>
+            <a href="{% url 'about-me' %}">About Me</a>
+            <a href="{% url 'contact-me' %}">Contact Me</a>
+        </div>
+    </nav>
+</header>

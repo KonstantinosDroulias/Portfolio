@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block main %}
+
+<div class="flex justify-between items-center">
+    <div class= py-10">
+        <h4 class="text-lg font-medium">Full Stack Web Developer</h4>
+        <h1 class="text-5xl mb-2">I am Konstantinos</h1>
+        <p class="text-base/2.0 ">
+            a 20 years old college student studying <i>Computer Science</i>
+        </p>
+
+        <div class="mt-6 flex items-center gap-5">
+            <a class="px-4 py-2 bg-blue-200 rounded-sm border-1 border-blue-200 hover:bg-transparent " href="#">Download CV</a>
+            <a class="px-4 py-2 border-1 border-blue-200 rounded-sm hover:bg-blue-200" href="{% url 'projects' %}">View Projects</a>
+        </div>
+    </div>
+    {% include 'components/profile-card.html' %}
+</div>
+
+<section class="my-10">
+    <div class="flex justify-between items-center">
+        <h2 class="text-3xl">Recent Projects</h2>
+        <a href="{% url 'projects' %}" class="text-lg text-blue-400 hover:underline">View All &#8599;</a>
+    </div>
+    {% if projects %}
+    <div class="grid justify-center grid-cols-3 gap-4 my-5 p-3">
+        {% for project in projects %}
+            {% url 'project' project.id as project_link %}
+            {% include 'components/card.html' with link=project_link title=project.title content=project.content image=project.featured_image %}
+        {% endfor %}
+    </div>
+    {% else %}
+        <p class="text-center p-2 text-lg text-gray-500">No projects for this tag</p>
+    {% endif %}
+</section>
+
+
+{% endblock %}

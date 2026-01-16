@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block main %}
+
+{% if query %}
+    <p class="text-lg mb-6">
+      Results for: <span class="font-semibold text-lg">"{{ query }}"</span>
+    </p>
+  {% endif %}
+
+  {% if not query %}
+    <p class="text-2xl">Type something above to search.</p>
+  {% else %}
+    {% if project_results or post_results %}
+      {% if project_results %}
+        <h2 class="text-2xl font-semibold mb-3">Projects</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+          {% for project in project_results %}
+            <a href="{% url 'project' project.id %}"
+               class="block p-4 rounded-lg shadow-md bg-white">
+              <h3 class="text-xl font-semibold mb-1">{{ project.title }}</h3>
+              <p class="text-base/2.0">
+                {{ project.short_description|default:project.content|truncatechars:120 }}
+              </p>
+            </a>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {% if post_results %}
+        <h2 class="text-2xl font-semibold mb-3">Blog posts</h2>
+        <div class="space-y-3">
+          {% for post in post_results %}
+            <a href="{% url 'post' post.id %}"
+               class="block p-4 rounded-lg bg-white shadow-md">
+              <h3 class="text-xl font-semibold mb-1">{{ post.title }}</h3>
+              <p class="text-base/2.0">
+                {{ post.short_description|default:post.content|truncatechars:140 }}
+              </p>
+            </a>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% else %}
+      <p class="text-slate-400">No results found.</p>
+    {% endif %}
+  {% endif %}
+</section>
+
+
+
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block main %}
+
+<div class="grid grid-cols-[1fr_3fr] gap-5">
+
+    <div>
+        <h3 class="text-xl mb-6">Tags</h3>
+        <div class="flex justify-start items-start flex-col gap-5">
+            <a href="{% url 'projects' %}" class="p-4 rounded-lg bg-white shadow-md hover:cursor-pointer">
+                <p class="text-base">View All</p>
+            </a>
+            {% for tg in tags %}
+                {% if tg.name == tag.name %}
+                <a href="{% url 'tag' tg.id %}" class="flex items-center gap-2 p-4 border-b-1 rounded-lg text-blue-400 shadow-sm hover:cursor-pointer">
+                    <p class="text-base">{{ tg.name }}</p>
+                    <p class="text-sm">{{ tg.project_set.count }}</p>
+                </a>
+                {% else %}
+                <a href="{% url 'tag' tg.id %}" class="flex items-center gap-2 p-4 rounded-lg bg-white shadow-sm hover:cursor-pointer">
+                    <p class="text-base">{{ tg.name }}</p>
+                    <p class="text-sm">{{ tg.project_set.count }}</p>
+                </a>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+    <div>
+
+        <h2 class="text-3xl mb-5">Projects with {{ tag.name }}</h2>
+        {% if projects %}
+        <div class="flex flex-col gap-5">
+            {% for project in projects %}
+                <a href="{% url 'project' project.id %}" class="w-3/4 p-4 rounded-lg bg-white shadow-sm">
+                    {% if project.featured_image %}
+                    <img src="{{ project.featured_image.url }}"
+                         alt="{{ project.title }}"
+                         class="w-full h-auto object-contain mb-5">
+                    {% endif %}
+                    <h3 class="block text-2xl">{{ project.title }}</h3>
+                    <p class="block text-base/2.0">{{ project.content }}</p>
+                </a>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-center p-2 text-lg text-gray-500">No projects for this tag</p>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

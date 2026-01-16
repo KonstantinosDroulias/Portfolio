@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block main %}
+
+<div>
+
+    <h1 class="text-5xl">{{ project.title }}</h1>
+    {% if project.featured_image %}
+        <img src="{{ project.featured_image.url }}"
+             alt="{{ project.title }}"
+             class="w-2/3 h-auto object-contain my-5 mx-auto">
+    {% endif %}
+    <div class="bg-white p-5 px-0 rounded-xl shadow grid grid-cols-3 items-center my-5">
+        <div class="flex justify-between items-center px-4">
+            <p>Github Link</p>
+            {% if project.github_link %}
+                <a class="text-blue-400 hover:underline" target="_blank" href="{{ project.github_link }}">Visit &#8599;</a>
+            {% endif %}
+
+        </div>
+        <div class="flex justify-between items-center border-l border-r border-grey-400 px-4">
+            <p>Design Link:</p>
+            {% if project.figma_link %}
+                <a class="text-blue-400 hover:underline" target="_blank" href="{{ project.figma_link }}">Visit &#8599;</a>
+            {% endif %}
+        </div>
+        <div class="flex justify-between px-4">
+            <p>Tags:</p>
+            <div class="flex flex-wrap gap-5">
+            {% for tag in tags %}
+                <a href="{% url 'tag' tag.id %}" class="p-3 rounded-lg bg-white shadow-sm hover:cursor-pointer">
+                    <p class="text-sm">{{ tag.name }}</p>
+                </a>
+            {% endfor %}
+        </div>
+        </div>
+    </div>
+
+    <p class="text-base/2.0 my-5">
+        {{ project.content }}
+    </p>
+
+</div>
+
+{% endblock %}

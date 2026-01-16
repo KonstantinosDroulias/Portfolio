@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block main %}
+<h1 class="text-5xl">You can contact me freely</h1>
+<p class="text-base/1.8">I will do my best to reply as soon as possible.</p>
+
+<div class="my-5">
+    <form class="space-y-5" method="POST" action="">
+        <div class="block space-y-2">
+            <label class="block" for="contact-name">Name:</label>
+            <input class="text-base/2.0 p-1 block border-1 rounded-sm border-gray-300 w-full" type="text" id="contact-name" name="contact-name">
+        </div>
+        <div class="block space-y-2">
+            <label class="block" for="contact-email">Email:</label>
+            <input class="text-base/2.0 p-1 block border-1 rounded-sm border-gray-300 w-full" type="email" id="contact-email" name="contact-email">
+        </div>
+        <div class="block space-y-2">
+            <label class="block" for="contact-message">Message:</label>
+            <textarea rows="10" class="text-base/2.0 p-1 block border-1 rounded-sm border-gray-300 w-full" id="contact-message" name="contact-message"></textarea>
+        </div>
+
+        <div class="block">
+            <input class="block w-full py-2 bg-blue-200 rounded-sm border-1 border-blue-200 hover:bg-transparent hover:cursor-pointer " type="submit" value="Send">
+        </div>
+    </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,9 @@
+<a href="{{ link }}" class="p-4 rounded-lg bg-white shadow-sm h-max">
+    {% if image %}
+    <img src="{{ image.url }}"
+         alt="{{ title }}"
+         class="w-full h-auto object-contain mb-5">
+    {% endif %}
+    <h3 class="block text-2xl mb-3">{{ title }}</h3>
+    <p class="block text-base/2.0">{{ content }}</p>
+</a>
