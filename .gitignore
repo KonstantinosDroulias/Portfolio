@@ -1,0 +1,87 @@
+# ── Django ──────────────────────────────────────────────
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+db.sqlite3
+db.sqlite3-journal
+local_settings.py
+media/
+
+# ── Environment / Secrets ────────────────────────────────
+.env
+.env.*
+!.env.example
+
+# ── Python packaging ─────────────────────────────────────
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+pip-wheel-metadata/
+
+# ── Virtual environments ─────────────────────────────────
+venv/
+.venv/
+env/
+ENV/
+.python-version
+
+# ── TailwindCSS ──────────────────────────────────────────
+node_modules/
+static/dist/
+# Keep source assets; ignore compiled output only
+# (adjust the path below to match your output dir)
+
+# ── Static files collected by Django ─────────────────────
+staticfiles/
+static_root/
+
+# ── macOS ────────────────────────────────────────────────
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# ── JetBrains / PyCharm ──────────────────────────────────
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+.idea_modules/
+
+# ── VS Code ──────────────────────────────────────────────
+.vscode/
+*.code-workspace
+
+# ── Testing & Coverage ───────────────────────────────────
+.coverage
+coverage.xml
+htmlcov/
+.pytest_cache/
+.tox/
+nosetests.xml
+
+# ── Logs & temp files ────────────────────────────────────
+*.log
+*.pot
+*.mo
+celerybeat-schedule
+celerybeat.pid
+
+# ── Miscellaneous ────────────────────────────────────────
+*.bak
+*.swp
+*.swo
+*~
+Thumbs.db
