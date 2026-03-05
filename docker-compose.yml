@@ -13,6 +13,8 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
+    networks:
+      - app_network
 
   web:
     build: .
@@ -24,9 +26,14 @@ services:
       db:
         condition: service_healthy
     volumes:
-      # Persist user-uploaded media across container restarts
       - media_data:/app/media
+    networks:
+      - app_network
 
 volumes:
   postgres_data:
   media_data:
+
+networks:
+  app_network:
+    driver: bridge
