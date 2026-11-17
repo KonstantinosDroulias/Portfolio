@@ -1,0 +1,37 @@
+{% extends "cms/base.html" %}
+{% block title %}Profile{% endblock %}
+{% block main %}
+<header class="cms-head"><div><p class="label">Profile</p><h1>{{ prof.name }}</h1></div></header>
+<form method="post" enctype="multipart/form-data" class="cms-block" data-guard>
+  {% csrf_token %}
+  <div class="profile-photo">
+    <img src="{{ prof.avatar_url }}" alt="Your avatar" width="120" height="120">
+    <div class="field"><label for="{{ form.new_photo.id_for_label }}">New photo</label>{{ form.new_photo }}<p class="hint">{{ form.new_photo.help_text }}</p>{% for e in form.new_photo.errors %}<p class="err">{{ e }}</p>{% endfor %}</div>
+  </div>
+  <p class="hint">This is how you appear on your posts: byline, author box and the admin bar.</p>
+  <div class="fields">
+    {% include "cms/_field.html" with f=form.display_name %}
+    {% include "cms/_field.html" with f=form.role_line %}
+    {% include "cms/_field.html" with f=form.first_name %}
+    {% include "cms/_field.html" with f=form.last_name %}
+    {% include "cms/_field.html" with f=form.email %}
+    {% include "cms/_field.html" with f=form.bio wide=1 %}
+    {% include "cms/_field.html" with f=form.github %}
+    {% include "cms/_field.html" with f=form.linkedin %}
+    {% include "cms/_field.html" with f=form.instagram %}
+  </div>
+  <div class="savebar"><a class="btn" href="{% url 'cms:profile' %}" data-discard hidden>Discard changes</a><button class="btn btn--solid" type="submit">Save profile</button></div>
+</form>
+
+<form method="post" class="cms-block">
+  {% csrf_token %}
+  <div class="cms-block__head"><h2>Password</h2></div>
+  <div class="fields">
+    {% include "cms/_field.html" with f=pw_form.old_password %}
+    {% include "cms/_field.html" with f=pw_form.new_password1 %}
+    {% include "cms/_field.html" with f=pw_form.new_password2 %}
+  </div>
+  <div class="savebar"><button class="btn" type="submit" name="change_password" value="1">Change password</button></div>
+</form>
+{% endblock %}
+{% block scripts %}{% load static %}<script src="{% static 'js/cms.js' %}" defer></script>{% endblock %}

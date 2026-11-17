@@ -1,0 +1,24 @@
+{% extends "cms/base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block main %}
+<header class="cms-head">
+  <div><p class="label">Dashboard</p><h1>Hi, {{ request.user.profile.name|default:request.user.username }}.</h1></div>
+  <a class="btn btn--solid" href="{% url 'cms:post_new' %}"><svg aria-hidden="true"><use href="#i-plus"/></svg>Write a post</a>
+</header>
+<div class="stats">
+  <a href="{% url 'cms:posts' %}?status=published"><span class="label">Published</span><b>{{ n_live }}</b></a>
+  <a href="{% url 'cms:posts' %}?status=draft"><span class="label">Drafts</span><b>{{ n_draft }}</b></a>
+  {% if request.user.is_superuser %}<a href="{% url 'cms:messages' %}"><span class="label">Unread messages</span><b>{{ unread }}</b></a>{% endif %}
+</div>
+<section class="cms-block">
+  <div class="cms-block__head"><h2>Recent posts</h2><a class="link-arrow" href="{% url 'cms:posts' %}">All posts <svg aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
+  {% include "cms/_post_rows.html" with posts=recent %}
+</section>
+{% if request.user.is_superuser %}
+<section class="cms-block">
+  <div class="cms-block__head"><h2>Latest messages</h2><a class="link-arrow" href="{% url 'cms:messages' %}">Inbox <svg aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
+  {% if inbox %}<ul class="list">{% for m in inbox %}<li class="list__row"><span class="dot{% if not m.read %} dot--on{% endif %}" aria-label="{% if m.read %}Read{% else %}Unread{% endif %}"></span><span class="list__main"><b>{{ m.name }}</b> <span class="muted">· {{ m.topic }}</span><span class="list__sub">{{ m.message|truncatechars:110 }}</span></span><span class="meta">{{ m.created_at|date:"d M" }}</span></li>{% endfor %}</ul>
+  {% else %}<p class="cms-empty">No messages yet.</p>{% endif %}
+</section>
+{% endif %}
+{% endblock %}

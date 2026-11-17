@@ -1,0 +1,106 @@
+{% extends "cms/base.html" %}
+{% block title %}{% if post.pk %}Edit: {{ post.title }}{% else %}New post{% endif %}{% endblock %}
+{% block main %}
+<form method="post" enctype="multipart/form-data" class="editor" id="editor" data-preview="{% url 'cms:preview' %}" data-upload="{% url 'cms:upload' %}" novalidate>
+  {% csrf_token %}
+  <header class="editor__bar">
+    <a class="label editor__back" href="{% url 'cms:posts' %}">← Posts</a>
+    <span class="editor__state" data-state>{% if post.pk %}{% if post.status == 'published' %}{% if post.is_live %}Live{% else %}Scheduled{% endif %}{% else %}Draft{% endif %}{% else %}New post{% endif %}</span>
+    <div class="editor__actions">
+      {% if post.pk %}<a class="btn" href="{{ post.get_absolute_url }}" target="_blank">{% if post.is_live %}View post{% else %}Preview{% endif %} ↗</a>{% endif %}
+      <a class="btn editor__discard" href="{% if post.pk %}{% url 'cms:post_edit' post.pk %}{% else %}{% url 'cms:posts' %}{% endif %}" data-discard hidden>Discard changes</a>
+      {% if post.status == 'published' and post.pk %}
+        <button class="btn" type="submit" name="status" value="draft" data-save>Unpublish</button>
+        <button class="btn btn--solid" type="submit" name="status" value="published" data-save>Update</button>
+      {% else %}
+        <button class="btn" type="submit" name="status" value="draft" data-save>Save draft</button>
+        <button class="btn btn--solid" type="submit" name="status" value="published" data-save data-publish>Publish</button>
+      {% endif %}
+    </div>
+  </header>
+
+  {% if form.errors %}<div class="errorlist editor__errors" role="alert">Please fix the fields marked below.{{ form.non_field_errors }}</div>{% endif %}
+
+  <div class="editor__grid">
+    <div class="editor__main">
+      <label class="visually-hidden" for="id_title">Title</label>
+      <textarea class="editor__title" id="id_title" name="title" rows="1" placeholder="Post title" required maxlength="200">{{ form.title.value|default:'' }}</textarea>
+      {% for e in form.title.errors %}<p class="err">{{ e }}</p>{% endfor %}
+      <label class="visually-hidden" for="id_excerpt">Summary</label>
+      <textarea class="editor__excerpt" id="id_excerpt" name="excerpt" rows="2" maxlength="320" placeholder="One or two sentences under the title. Also used by Google and when shared.">{{ form.excerpt.value|default:'' }}</textarea>
+
+      <div class="md">
+        <div class="md__bar" role="toolbar" aria-label="Formatting">
+          <div class="md__tabs" role="tablist">
+            <button type="button" role="tab" aria-selected="true" data-tab="write">Write</button>
+            <button type="button" role="tab" aria-selected="false" data-tab="preview">Preview</button>
+          </div>
+          <div class="md__tools">
+            <button type="button" data-md="h2" title="Heading">H2</button>
+            <button type="button" data-md="h3" title="Small heading">H3</button>
+            <button type="button" data-md="bold" title="Bold (⌘B)"><b>B</b></button>
+            <button type="button" data-md="italic" title="Italic (⌘I)"><i>I</i></button>
+            <button type="button" data-md="link" title="Link (⌘K)">Link</button>
+            <button type="button" data-md="ul" title="List">List</button>
+            <button type="button" data-md="quote" title="Quote">Quote</button>
+            <button type="button" data-md="code" title="Code block">Code</button>
+            <button type="button" data-md="image" title="Upload an image">Image</button>
+            <input type="file" accept="image/*" data-image-input hidden>
+          </div>
+        </div>
+        <label class="visually-hidden" for="id_body">Post body (Markdown)</label>
+        <textarea class="md__text" id="id_body" name="body" rows="28" spellcheck="true" placeholder="Write here. Markdown works: ## Heading, **bold**, > quote, ```code```. Drop an image in to upload it.">{{ form.body.value|default:'' }}</textarea>
+        <div class="md__preview prose" data-preview-pane hidden></div>
+        <p class="md__foot"><span data-words>0 words</span> · <span data-minutes>1 min read</span> · Markdown · drop or paste images to upload</p>
+      </div>
+    </div>
+
+    <aside class="editor__side">
+      <section class="panel">
+        <h2 class="label">Cover image</h2>
+        <div class="cover" data-cover>
+          {% if post.cover %}<img src="{{ post.cover.url }}" alt="" data-cover-img>{% else %}<img alt="" data-cover-img hidden>{% endif %}
+          <span class="cover__empty" {% if post.cover %}hidden{% endif %} data-cover-empty>No cover. The title shows on a plain background.</span>
+        </div>
+        <div class="cover__actions">
+          <label class="btn btn--sm">Choose image<input type="file" name="cover" accept="image/*" class="visually-hidden" data-cover-input></label>
+          {% if post.cover %}<label class="check"><input type="checkbox" name="remove_cover" data-remove-cover> Remove</label>{% endif %}
+        </div>
+        <p class="hint">It sits blurred behind the title, so any photo works.</p>
+        <div class="field"><label for="id_cover_alt">Describe the image</label><input type="text" id="id_cover_alt" name="cover_alt" value="{{ form.cover_alt.value|default:'' }}" maxlength="200"></div>
+        {% for e in form.cover.errors %}<p class="err">{{ e }}</p>{% endfor %}
+      </section>
+
+      <section class="panel">
+        <h2 class="label">Publishing</h2>
+        <div class="field"><label for="id_published_at">Date</label><input type="datetime-local" id="id_published_at" name="published_at" value="{{ form.published_at.value|date:'Y-m-d\TH:i'|default:form.published_at.value }}">
+          <p class="hint">A future date schedules the post.</p>{% for e in form.published_at.errors %}<p class="err">{{ e }}</p>{% endfor %}</div>
+        {% if form.author %}<div class="field"><label for="id_author">Author</label>{{ form.author }}</div>{% endif %}
+        <div class="field"><label for="id_slug">Web address</label><div class="slug"><span>/writing/</span><input type="text" id="id_slug" name="slug" value="{{ form.slug.value|default:'' }}" placeholder="from-the-title"></div>{% for e in form.slug.errors %}<p class="err">{{ e }}</p>{% endfor %}</div>
+      </section>
+
+      <section class="panel">
+        <h2 class="label">Topic &amp; tags</h2>
+        <div class="field"><label for="id_category">Topic</label>
+          <select id="id_category" name="category"><option value="">No topic</option>{% for c in categories %}<option value="{{ c.pk }}"{% if form.category.value|stringformat:"s" == c.pk|stringformat:"s" %} selected{% endif %}>{{ c.name }}</option>{% endfor %}</select></div>
+        <div class="field"><label for="id_new_category">Or a new topic</label><input type="text" id="id_new_category" name="new_category" value="{{ form.new_category.value|default:'' }}" maxlength="60" placeholder="e.g. Business systems"></div>
+        <div class="field"><label for="id_tags_text">Tags</label><input type="text" id="id_tags_text" name="tags_text" value="{{ form.tags_text.value|default:'' }}" placeholder="Django, WooCommerce"><p class="hint">Comma separated</p></div>
+      </section>
+
+      <details class="panel" {% if form.seo_title.value or form.seo_description.value %}open{% endif %}>
+        <summary class="label">Search &amp; sharing</summary>
+        <div class="field"><label for="id_seo_title">SEO title</label><input type="text" id="id_seo_title" name="seo_title" value="{{ form.seo_title.value|default:'' }}" maxlength="70" placeholder="Uses the post title"></div>
+        <div class="field"><label for="id_seo_description">SEO description</label><textarea id="id_seo_description" name="seo_description" rows="3" maxlength="170" placeholder="Uses the summary">{{ form.seo_description.value|default:'' }}</textarea></div>
+        <div class="serp" aria-hidden="true"><span class="serp__url">konstantinosdroulias.com › writing</span><span class="serp__title" data-serp-title></span><span class="serp__desc" data-serp-desc></span></div>
+      </details>
+    </aside>
+  </div>
+</form>
+
+{% if post.pk %}
+<form method="post" action="{% url 'cms:post_delete' post.pk %}" class="danger" onsubmit="return confirm('Delete “{{ post.title|escapejs }}”? This can\'t be undone.')">
+  {% csrf_token %}<button type="submit" class="btn btn--danger">Delete post</button>
+</form>
+{% endif %}
+{% endblock %}
+{% block scripts %}{% load static %}<script src="{% static 'js/cms.js' %}" defer></script>{% endblock %}

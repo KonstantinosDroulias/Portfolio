@@ -1,0 +1,48 @@
+{% extends "cms/base.html" %}
+{% block title %}Contact info & CV{% endblock %}
+{% block main %}
+<header class="cms-head"><div><p class="label">Site</p><h1>Contact info &amp; CV</h1></div></header>
+
+<section class="cms-block">
+  <div class="cms-block__head"><h2>CV</h2></div>
+  <div class="cv-row">
+    <div class="cv-file">
+      <span class="cv-file__icon" aria-hidden="true">PDF</span>
+      <span>{% if site.cv %}<b>Your uploaded CV</b><span class="list__sub">Uploaded {{ site.cv_updated|date:"d M Y, H:i" }}</span>{% else %}<b>Built-in CV</b><span class="list__sub">No upload yet. The site serves the CV it shipped with.</span>{% endif %}</span>
+      <a class="btn btn--sm" href="{% url 'cv' %}" target="_blank">Open ↗</a>
+    </div>
+    <form method="post" enctype="multipart/form-data" class="cv-upload">
+      {% csrf_token %}
+      <div class="field"><label for="id_cv">Upload a new PDF</label><input type="file" id="id_cv" name="cv" accept="application/pdf" required>{% for e in cv_form.cv.errors %}<p class="err">{{ e }}</p>{% endfor %}</div>
+      <div class="btn-row"><button class="btn btn--solid" name="upload_cv" value="1">Upload CV</button>{% if site.cv %}<button class="btn" name="remove_cv" value="1" formnovalidate>Use built-in CV</button>{% endif %}</div>
+    </form>
+  </div>
+</section>
+
+<form method="post" class="cms-block settings-form" data-guard>
+  {% csrf_token %}
+  <div class="cms-block__head"><h2>Contact details</h2></div>
+  <div class="fields">
+    {% include "cms/_field.html" with f=form.email %}
+    {% include "cms/_field.html" with f=form.notify_email %}
+    {% include "cms/_field.html" with f=form.based_in %}
+    {% include "cms/_field.html" with f=form.currently %}
+    {% include "cms/_field.html" with f=form.agency_name %}
+    {% include "cms/_field.html" with f=form.agency_url %}
+  </div>
+  <div class="cms-block__head"><h2>Profiles</h2></div>
+  <div class="fields">
+    {% include "cms/_field.html" with f=form.github %}
+    {% include "cms/_field.html" with f=form.linkedin %}
+    {% include "cms/_field.html" with f=form.instagram %}
+    {% include "cms/_field.html" with f=form.x %}
+  </div>
+  <div class="cms-block__head"><h2>“Now” on the About page</h2></div>
+  <div class="fields">
+    {% include "cms/_field.html" with f=form.now_items wide=1 %}
+    {% include "cms/_field.html" with f=form.now_updated %}
+  </div>
+  <div class="savebar"><a class="btn" href="{% url 'cms:settings' %}" data-discard hidden>Discard changes</a><button class="btn btn--solid" type="submit">Save changes</button></div>
+</form>
+{% endblock %}
+{% block scripts %}{% load static %}<script src="{% static 'js/cms.js' %}" defer></script>{% endblock %}

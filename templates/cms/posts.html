@@ -1,0 +1,17 @@
+{% extends "cms/base.html" %}
+{% block title %}Posts{% endblock %}
+{% block main %}
+<header class="cms-head">
+  <div><p class="label">Posts</p><h1>Writing</h1></div>
+  <a class="btn btn--solid" href="{% url 'cms:post_new' %}"><svg aria-hidden="true"><use href="#i-plus"/></svg>New post</a>
+</header>
+<div class="toolbar">
+  <nav class="filters filters--flat" aria-label="Filter">
+    <a class="chip" href="?"{% if not status %} aria-current="page"{% endif %}>All</a>
+    <a class="chip" href="?status=published"{% if status == 'published' %} aria-current="page"{% endif %}>Published</a>
+    <a class="chip" href="?status=draft"{% if status == 'draft' %} aria-current="page"{% endif %}>Drafts</a>
+  </nav>
+  <form method="get" class="search__box toolbar__search" role="search"><svg aria-hidden="true"><use href="#i-search"/></svg><label class="visually-hidden" for="pq">Search posts</label><input id="pq" type="search" name="q" value="{{ q }}" placeholder="Search titles">{% if status %}<input type="hidden" name="status" value="{{ status }}">{% endif %}</form>
+</div>
+{% include "cms/_post_rows.html" %}
+{% endblock %}

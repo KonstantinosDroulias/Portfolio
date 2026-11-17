@@ -1,0 +1,40 @@
+{% load static %}<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>try{document.querySelector('meta[name="color-scheme"]').content=localStorage.getItem("color-scheme")??"light dark"}catch(e){}</script>
+<title>{{ meta_title }}</title>
+<meta name="description" content="{{ meta_description }}">
+<link rel="canonical" href="{{ canonical_override|default:canonical }}">
+{% if noindex or noindex_host %}<meta name="robots" content="noindex, nofollow">{% else %}<meta name="robots" content="index, follow, max-image-preview:large">{% endif %}
+<meta property="og:site_name" content="Konstantinos Droulias">
+<meta property="og:locale" content="en_GB">
+<meta property="og:type" content="{% block og_type %}website{% endblock %}">
+<meta property="og:title" content="{{ og_title|default:meta_title }}">
+<meta property="og:description" content="{{ meta_description }}">
+<meta property="og:url" content="{{ canonical_override|default:canonical }}">
+<meta property="og:image" content="{% if og_image %}{{ og_image }}{% else %}{{ SITE_URL }}{% static 'img/og-default.jpg' %}{% endif %}">
+<meta property="og:image:alt" content="{{ og_image_alt|default:"Konstantinos Droulias" }}">
+<meta name="twitter:card" content="summary_large_image">
+{% block head_extra %}{% endblock %}
+<link rel="alternate" type="application/rss+xml" title="Konstantinos Droulias — Writing" href="{% url 'feed' %}">
+<link rel="icon" href="{% static 'img/favicon.svg' %}" type="image/svg+xml">
+<link rel="preload" href="{% static 'fonts/ibm-plex-sans-latin-400-normal.woff2' %}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{% static 'fonts/ibm-plex-sans-latin-600-normal.woff2' %}" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="{% static 'css/site.css' %}">
+{% for block in jsonld %}<script type="application/ld+json">{{ block|safe }}</script>
+{% endfor %}
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+{% include "partials/icons.html" %}
+{% if show_adminbar %}{% include "partials/adminbar.html" %}{% endif %}
+{% include "partials/header.html" %}
+{% block before_main %}{% endblock %}
+<main id="main">{% block main %}{% endblock %}</main>
+{% include "partials/footer.html" %}
+<script src="{% static 'js/site.js' %}" defer></script>
+</body>
+</html>

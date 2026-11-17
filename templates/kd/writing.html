@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block main %}
+<div class="wrap">
+  <section class="page-head">
+    <div class="page-head__copy">
+      <p class="label label--lg">Blog — {{ total }} post{{ total|pluralize }}</p>
+      <h1>{{ heading }}</h1>
+      <p class="lead">{% if intro %}{{ intro }}{% elif active_tag %}Posts tagged {{ active_tag.name }}.{% else %}Articles, notes and ideas on business systems, development and e-commerce, written as I work through them.{% endif %}</p>
+    </div>
+    <form class="search" role="search" action="{% url 'writing' %}" method="get">
+      <label class="label" for="q">Search</label>
+      <div class="search__box">
+        <svg aria-hidden="true"><use href="#i-search"/></svg>
+        <input id="q" name="q" type="search" value="{{ q }}" placeholder="Search posts" autocomplete="off">
+        <button type="submit">Go</button>
+      </div>
+    </form>
+  </section>
+
+  <nav class="filters" aria-label="Topics">
+    <a class="chip" href="{% url 'writing' %}"{% if not active_cat and not active_tag and not q %} aria-current="page"{% endif %}>All</a>
+    {% for c in categories %}<a class="chip" href="{{ c.get_absolute_url }}"{% if c == active_cat %} aria-current="page"{% endif %}>{{ c.name }}</a>{% endfor %}
+  </nav>
+
+  {% if q %}<p class="meta" style="padding-top:32px">Results for “{{ q }}” · <a href="{% url 'writing' %}">Clear</a></p>{% endif %}
+
+  {% for year, items in groups %}
+  <section class="year" aria-labelledby="y{{ year }}">
+    <h2 id="y{{ year }}">{{ year }}</h2>
+    <ol>
+      {% for p in items %}
+      <li><a class="entry" href="{{ p.get_absolute_url }}">
+        <span class="entry__body">
+          <span class="entry__title">{{ p.title }}</span>
+          {% if p.excerpt %}<span class="entry__excerpt">{{ p.excerpt }}</span>{% endif %}
+          <span class="meta">{% if p.category %}{{ p.category.name }} · {% endif %}{{ p.reading_minutes }} min read</span>
+        </span>
+        <time class="entry__date" datetime="{{ p.published_at|date:'c' }}">{{ p.published_at|date:"d M" }}</time>
+      </a></li>
+      {% endfor %}
+    </ol>
+  </section>
+  {% empty %}
+  <p class="empty" style="border-top:0">{% if q %}Nothing matches that search yet.{% else %}No posts here yet.{% endif %}</p>
+  {% endfor %}
+
+  {% if older_url or newer_url %}
+  <nav class="pager" aria-label="Pages">
+    {% if newer_url %}<a class="btn" href="{{ newer_url }}{% if q %}{% if '?' in newer_url %}&{% else %}?{% endif %}q={{ q|urlencode }}{% endif %}" rel="prev">Newer posts</a>{% endif %}
+    {% if older_url %}<a class="btn" href="{{ older_url }}{% if q %}{% if '?' in older_url %}&{% else %}?{% endif %}q={{ q|urlencode }}{% endif %}" rel="next">Older posts</a>{% endif %}
+  </nav>
+  {% else %}<div style="height:96px"></div>{% endif %}
+</div>
+{% endblock %}

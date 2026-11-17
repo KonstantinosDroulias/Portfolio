@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block main %}
+<div class="wrap contact">
+  <div class="contact__copy">
+    <p class="label label--lg">Contact</p>
+    <h1>Let's talk.</h1>
+    <p class="lead muted" style="margin:0;font-size:18px;line-height:1.65">A project, a question about something I wrote, or just an idea. Send me a message and I'll get back to you.</p>
+    <dl class="dl">
+      <div><dt>Email</dt><dd><a href="mailto:{{ site.email }}">{{ site.email }}</a></dd></div>
+      <div><dt>Based in</dt><dd>{{ site.based_in }}</dd></div>
+      <div><dt>Agency</dt><dd><a href="{{ site.agency_url }}" target="_blank" rel="noopener">{{ site.agency_url|cut:"https://"|cut:"http://"|cut:"/" }}</a></dd></div>
+      <div><dt>Elsewhere</dt><dd>{% for label, url in site.socials %}<a href="{{ url }}" target="_blank" rel="me noopener">{{ label }}</a>{% if not forloop.last %} · {% endif %}{% endfor %}</dd></div>
+    </dl>
+  </div>
+
+  <div id="form">
+  {% if sent %}
+    <div class="sent" role="status">
+      <span class="sent__check"><svg aria-hidden="true"><use href="#i-check"/></svg></span>
+      <h2>Message sent.</h2>
+      <p>Thanks for reaching out. I'll reply to your email soon. In the meantime, have a look at what I've been writing.</p>
+      <div class="row-links"><a class="btn btn--solid" href="{% url 'writing' %}">Read the blog <svg aria-hidden="true"><use href="#i-arrow"/></svg></a><a href="{% url 'contact' %}#form">Send another</a></div>
+    </div>
+  {% else %}
+    <form class="form" method="post" action="{% url 'contact' %}#form" novalidate>
+      {% csrf_token %}
+      {% if form.non_field_errors %}<div class="errorlist" role="alert">{{ form.non_field_errors|join:" " }}</div>{% endif %}
+      <div class="field"><label for="id_name">Name</label><input type="text" id="id_name" name="name" value="{{ form.name.value|default:'' }}" autocomplete="name" required maxlength="120">{% for e in form.name.errors %}<p class="err">{{ e }}</p>{% endfor %}</div>
+      <div class="field"><label for="id_email">Email</label><input type="email" id="id_email" name="email" value="{{ form.email.value|default:'' }}" autocomplete="email" required>{% for e in form.email.errors %}<p class="err">{{ e }}</p>{% endfor %}</div>
+      <fieldset class="field">
+        <legend>What's it about?</legend>
+        <div class="choices">
+          {% for value, label in form.fields.topic.choices %}
+          <label><input type="radio" name="topic" value="{{ value }}"{% if form.topic.value == value or not form.topic.value and forloop.first %} checked{% endif %}><span>{{ label }}</span></label>
+          {% endfor %}
+        </div>
+      </fieldset>
+      <div class="field"><label for="id_message">Message</label><textarea id="id_message" name="message" rows="6" required maxlength="5000">{{ form.message.value|default:'' }}</textarea>{% for e in form.message.errors %}<p class="err">{{ e }}</p>{% endfor %}</div>
+      <div class="hp" aria-hidden="true"><label for="id_website">Website</label><input type="text" id="id_website" name="website" tabindex="-1" autocomplete="off"></div>
+      <div class="form__foot">
+        <p class="form__note">I only use your email to reply.</p>
+        <button class="btn btn--solid" type="submit">Send message <svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+      </div>
+    </form>
+  {% endif %}
+  </div>
+</div>
+{% endblock %}

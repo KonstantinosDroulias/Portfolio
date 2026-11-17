@@ -1,0 +1,12 @@
+{% if posts %}
+<ul class="list">
+  {% for p in posts %}
+  <li class="list__row">
+    <span class="tag tag--{{ p.status }}">{% if p.status == 'published' %}{% if p.is_live %}Live{% else %}Scheduled{% endif %}{% else %}Draft{% endif %}</span>
+    <a class="list__main" href="{% url 'cms:post_edit' p.pk %}"><b>{{ p.title }}</b><span class="list__sub">{% if p.category %}{{ p.category.name }} · {% endif %}{{ p.reading_minutes }} min read{% if request.user.is_superuser %} · {{ p.author.profile.name }}{% endif %}</span></a>
+    <span class="meta">{{ p.published_at|date:"d M Y" }}</span>
+    <a class="list__view" href="{{ p.get_absolute_url }}" target="_blank" aria-label="View “{{ p.title }}” on the site"><svg aria-hidden="true"><use href="#i-ext"/></svg></a>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}<p class="cms-empty">No posts yet. <a href="{% url 'cms:post_new' %}">Write the first one</a>.</p>{% endif %}

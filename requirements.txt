@@ -1,0 +1,4 @@
+Django>=5.2,<5.3
+gunicorn>=23
+Markdown>=3.7
+Pillow>=11

@@ -1,0 +1,7 @@
+<div class="findme">
+  <span class="label">Find me on</span>
+  <div class="icon-row">
+    {% for label, url in site.socials %}<a class="icon-btn" href="{{ url }}" rel="me noopener" target="_blank" aria-label="{{ label }}"><svg aria-hidden="true"><use href="#i-{{ label|lower }}"/></svg></a>{% endfor %}
+    <a class="icon-btn" href="mailto:{{ site.email }}" aria-label="Email"><svg aria-hidden="true"><use href="#i-mail"/></svg></a>
+  </div>
+</div>

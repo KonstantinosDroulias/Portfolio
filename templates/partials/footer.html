@@ -1,0 +1,10 @@
+<footer class="site-footer">
+  <div class="wrap site-footer__in">
+    <span>© {% now "Y" %} Konstantinos Droulias</span>
+    <ul>
+      {% for label, url in site.socials %}<li><a href="{{ url }}" rel="me noopener" target="_blank">{{ label }}</a></li>{% endfor %}
+      <li><a href="{% url 'feed' %}">RSS</a></li>
+    </ul>
+    <a class="to-top" href="#main">Back to top ↑</a>
+  </div>
+</footer>

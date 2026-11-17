@@ -1,0 +1,30 @@
+{% extends "cms/base.html" %}
+{% block title %}Users{% endblock %}
+{% block main %}
+<header class="cms-head"><div><p class="label">Team</p><h1>Users</h1></div></header>
+<section class="cms-block">
+  <ul class="list">
+    {% for u in people %}
+    <li class="list__row">
+      <img class="list__avatar" src="{{ u.profile.avatar_url }}" alt="" width="40" height="40">
+      <span class="list__main"><b>{{ u.profile.name }}</b><span class="list__sub">{{ u.username }}{% if u.email %} · {{ u.email }}{% endif %} · {% if u.is_superuser %}Full access{% else %}Writer{% endif %}{% if u.last_login %} · last in {{ u.last_login|date:"d M Y" }}{% endif %}</span></span>
+      <span class="tag{% if u.is_active %} tag--published{% endif %}">{% if u.is_active %}Active{% else %}Off{% endif %}</span>
+      {% if u != request.user %}<form method="post" action="{% url 'cms:user_toggle' u.pk %}">{% csrf_token %}<button class="btn btn--sm">{% if u.is_active %}Switch off{% else %}Switch on{% endif %}</button></form>{% else %}<span class="meta">You</span>{% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+</section>
+<form method="post" class="cms-block">
+  {% csrf_token %}
+  <div class="cms-block__head"><h2>Add a user</h2></div>
+  <p class="hint">Writers can add and edit their own posts. Full access also covers messages, settings and users. Each person sets their photo and bio in Profile.</p>
+  <div class="fields">
+    {% include "cms/_field.html" with f=form.username %}
+    {% include "cms/_field.html" with f=form.display_name %}
+    {% include "cms/_field.html" with f=form.email %}
+    {% include "cms/_field.html" with f=form.password %}
+  </div>
+  <label class="check"><input type="checkbox" name="is_superuser"{% if form.is_superuser.value %} checked{% endif %}> {{ form.is_superuser.label }}</label>
+  <div class="savebar"><button class="btn btn--solid" type="submit">Add user</button></div>
+</form>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block main %}
+<section class="wrap hero" aria-labelledby="hero-h">
+  <div class="hero__copy">
+    <p class="label label--lg">Backend developer — {{ site.based_in }}</p>
+    <h1 id="hero-h">I build websites and the systems behind the business.</h1>
+    <p class="lead">I'm Konstantinos, founder of {{ site.agency_name }} and a final-year Computer Science student. I build ERPs, APIs, e-shops and the automations that connect them. This is where I write about what I learn doing it.</p>
+    <div class="btn-row">
+      <a class="btn btn--solid" href="{% url 'writing' %}">Read the blog <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      <a class="btn" href="{% url 'contact' %}">Get in touch</a>
+    </div>
+    {% include "partials/findme.html" %}
+  </div>
+  {% include "partials/photo.html" %}
+</section>
+
+<section class="strip" aria-label="Contact details">
+  <div class="wrap strip__in">
+    <div class="strip__cell"><span class="label">Email</span><a class="strip__value" href="mailto:{{ site.email }}">{{ site.email }}</a></div>
+    <div class="strip__cell"><span class="label">Based in</span><span class="strip__value">{{ site.based_in }}</span></div>
+    <div class="strip__cell"><span class="label">Currently</span><span class="strip__value">{{ site.currently }}</span></div>
+  </div>
+</section>
+
+<section class="wrap section" aria-labelledby="latest">
+  <div class="section__head">
+    <h2 id="latest">Latest writing</h2>
+    <a class="link-arrow" href="{% url 'writing' %}">All posts <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+  </div>
+  {% if posts %}
+  <ul class="rows">
+    {% for p in posts %}
+    <li><a class="row" href="{{ p.get_absolute_url }}">
+      <time class="row__date" datetime="{{ p.published_at|date:'c' }}">{{ p.published_at|date:"d M Y" }}</time>
+      <span class="row__body"><span class="row__title">{{ p.title }}</span>{% if p.excerpt %}<span class="row__excerpt">{{ p.excerpt }}</span>{% endif %}</span>
+      <span class="meta">{% if p.category %}{{ p.category.name }} · {% endif %}{{ p.reading_minutes }} min</span>
+    </a></li>
+    {% endfor %}
+  </ul>
+  {% else %}<p class="empty">The first posts are on their way.</p>{% endif %}
+</section>
+
+<section class="wrap section section--last" aria-labelledby="run">
+  <h2 id="run" class="section__head">What I run</h2>
+  <ul class="cards">
+    {% for w in projects %}
+    <li>{% if w.url %}<a class="card" href="{{ w.url }}" target="_blank" rel="noopener">{% else %}<div class="card">{% endif %}
+      <span class="card__n">{{ forloop.counter|stringformat:"02d" }}</span>
+      <span><span class="card__name">{{ w.name }}</span><span class="card__desc">{{ w.home_desc|default:w.desc }}</span></span>
+      <span class="card__url">{{ w.domain }}{% if w.url %}<svg aria-hidden="true"><use href="#i-ext"/></svg>{% endif %}</span>
+    {% if w.url %}</a>{% else %}</div>{% endif %}</li>
+    {% endfor %}
+  </ul>
+</section>
+{% endblock %}

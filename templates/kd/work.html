@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block main %}
+<div class="wrap">
+  <section class="page-head">
+    <div class="page-head__copy">
+      <p class="label label--lg">Work — {{ projects|length|add:1 }} projects</p>
+      <h1>Work</h1>
+      <p class="lead">Businesses I run and the systems I've built for them. Designed, built and maintained by me, from the database to the deploy.</p>
+    </div>
+  </section>
+
+  <section class="feature" aria-labelledby="f-name">
+    <p class="label">{{ feature.n }} · {{ feature.kind }}</p>
+    <h2 id="f-name" class="feature__name">{{ feature.name }}</h2>
+    <p class="feature__desc">{{ feature.desc }}</p>
+    <a class="feature__url" href="{{ feature.url }}" target="_blank" rel="noopener">{{ feature.domain }} <svg aria-hidden="true"><use href="#i-ext"/></svg></a>
+  </section>
+
+  <ul class="grid-2">
+    {% for w in projects %}
+    <li class="tcard">
+      <p class="label">{{ w.n }} · {{ w.kind }}</p>
+      <h2>{{ w.name }}</h2>
+      <p>{{ w.desc }}</p>
+      {% if w.url %}<a class="tcard__url" href="{{ w.url }}" target="_blank" rel="noopener">{{ w.domain }} <svg aria-hidden="true"><use href="#i-ext"/></svg></a>
+      {% else %}<span class="tcard__url muted">{{ w.domain }}</span>{% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+
+  <section class="cta" aria-labelledby="cta-h">
+    <div><h2 id="cta-h">Want something like this for your business?</h2><p>Tell me how your business runs and I'll tell you what I'd build.</p></div>
+    <a class="btn btn--solid" href="{% url 'contact' %}">Start a conversation <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+  </section>
+  <div style="height:96px"></div>
+</div>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% with me=request.user.profile %}
+<div class="adminbar" role="region" aria-label="Admin">
+  <div class="wrap adminbar__in">
+    <div class="adminbar__group">
+      <a href="{% url 'cms:dashboard' %}"><svg aria-hidden="true"><use href="#i-panel"/></svg>Admin panel</a>
+      {% if post and can_edit %}
+        <a class="adminbar__edit" href="{% url 'cms:post_edit' post.pk %}"><svg aria-hidden="true"><use href="#i-edit"/></svg>Edit post</a>
+        {% if not post.is_live %}<span class="adminbar__state hide-sm">{% if post.status == 'draft' %}Draft{% else %}Scheduled{% endif %}</span>{% endif %}
+      {% else %}
+        <a class="hide-sm" href="{% url 'cms:post_new' %}"><svg aria-hidden="true"><use href="#i-plus"/></svg>New post</a>
+      {% endif %}
+    </div>
+    <div class="adminbar__group">
+      <a class="adminbar__me" href="{% url 'cms:profile' %}" aria-label="Your profile: {{ request.user.username }}">
+        <span class="hide-sm">{{ request.user.username }}</span>
+        <img src="{{ me.avatar_url }}" alt="" width="28" height="28">
+      </a>
+    </div>
+  </div>
+</div>
+{% endwith %}

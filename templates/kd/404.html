@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block main %}
+<div class="wrap nf">
+  <p class="label label--lg">404</p>
+  <h1>This page doesn't exist.</h1>
+  <p class="muted" style="margin:0;font-size:18px">It may have moved, or the link has a typo.</p>
+  <div class="btn-row"><a class="btn btn--solid" href="{% url 'writing' %}">Read the blog</a><a class="btn" href="{% url 'home' %}">Home</a></div>
+</div>
+{% endblock %}

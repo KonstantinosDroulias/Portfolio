@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block main %}
+<section class="wrap hero" aria-labelledby="about-h">
+  <div class="hero__copy">
+    <p class="label label--lg">About</p>
+    <h1 id="about-h">Hi, I'm Konstantinos.</h1>
+    <p class="lead">I'm a backend developer in {{ site.based_in }}. I design and build business systems: ERPs, REST APIs, e-commerce platforms, integrations and automations, from the database to the deploy. I work mostly with Python, Django, PostgreSQL and Go.</p>
+    <p class="lead">Through {{ site.agency_name }} I work with businesses that need more than a website. I start by understanding how the business actually runs, then build the system around it. The site or the e-shop is only one part of that.</p>
+    <p class="lead">I'm also in my final year of a BSc (Hons) in Computer Science at the University of Greater Manchester, taught at New York College in Athens. I use AI agents like Claude Code and Codex every day, and this site is where I write down what I learn.</p>
+    <div class="btn-row">
+      <a class="btn btn--solid" href="{% url 'contact' %}">Get in touch <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      <a class="btn" href="{% url 'cv' %}" download>Download CV</a>
+    </div>
+  </div>
+  {% include "partials/photo.html" %}
+</section>
+
+<section class="wrap section" aria-labelledby="do-h">
+  <h2 id="do-h" class="section__head">What I do</h2>
+  <ul class="cols-3">
+    {% for n, name, text in what %}<li><span class="card__n">{{ n }}</span><h3>{{ name }}</h3><p>{{ text }}</p></li>{% endfor %}
+  </ul>
+</section>
+
+<section class="wrap section" aria-labelledby="tools-h">
+  <div class="section__head"><h2 id="tools-h">Tools I use</h2><p class="muted" style="margin:0">Chosen for the job, not the other way round.</p></div>
+  <ul class="tools">{% for t in tools %}<li>{{ t }}</li>{% endfor %}</ul>
+</section>
+
+{% if site.now_rows %}
+<section class="wrap section section--last" aria-labelledby="now-h">
+  <div class="section__head"><h2 id="now-h">Now</h2><span class="label">Updated {{ site.now_updated|date:"F Y" }}</span></div>
+  <ul class="now">{% for label, text in site.now_rows %}<li><span class="label">{{ label }}</span><span>{{ text }}</span></li>{% endfor %}</ul>
+</section>
+{% endif %}
+
+<section class="invert" aria-labelledby="talk-h">
+  <div class="wrap invert__in">
+    <h2 id="talk-h">Have a project or an idea to talk through?</h2>
+    <a class="btn" href="{% url 'contact' %}">Contact me <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+  </div>
+</section>
+{% endblock %}

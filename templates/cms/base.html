@@ -1,0 +1,49 @@
+{% load static %}<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>try{document.querySelector('meta[name="color-scheme"]').content=localStorage.getItem("color-scheme")??"light dark"}catch(e){}</script>
+<meta name="robots" content="noindex, nofollow">
+<title>{% block title %}Admin{% endblock %} — Konstantinos Droulias</title>
+<link rel="icon" href="{% static 'img/favicon.svg' %}" type="image/svg+xml">
+<link rel="stylesheet" href="{% static 'css/site.css' %}">
+<link rel="stylesheet" href="{% static 'css/cms.css' %}">
+</head>
+<body class="cms">
+{% include "partials/icons.html" %}
+{% with me=request.user.profile %}
+<aside class="cms-side">
+  <a class="cms-side__brand" href="{% url 'cms:dashboard' %}">Konstantinos Droulias<span class="label">Admin</span></a>
+  <nav aria-label="Admin">
+    <ul>
+      <li><a href="{% url 'cms:dashboard' %}"{% if section == 'dashboard' %} aria-current="page"{% endif %}>Dashboard</a></li>
+      <li><a href="{% url 'cms:posts' %}"{% if section == 'posts' %} aria-current="page"{% endif %}>Posts</a></li>
+      {% if request.user.is_superuser %}
+      <li><a href="{% url 'cms:messages' %}"{% if section == 'messages' %} aria-current="page"{% endif %}>Messages{% if unread %}<span class="count">{{ unread }}</span>{% endif %}</a></li>
+      <li><a href="{% url 'cms:settings' %}"{% if section == 'settings' %} aria-current="page"{% endif %}>Contact info &amp; CV</a></li>
+      <li><a href="{% url 'cms:users' %}"{% if section == 'users' %} aria-current="page"{% endif %}>Users</a></li>
+      {% endif %}
+      <li><a href="{% url 'cms:profile' %}"{% if section == 'profile' %} aria-current="page"{% endif %}>Profile</a></li>
+    </ul>
+  </nav>
+  <a class="btn btn--solid cms-side__new" href="{% url 'cms:post_new' %}"><svg aria-hidden="true"><use href="#i-plus"/></svg>New post</a>
+  <div class="cms-side__foot">
+    <a class="cms-me" href="{% url 'cms:profile' %}"><img src="{{ me.avatar_url }}" alt="" width="36" height="36"><span><b>{{ me.name }}</b><span>{{ request.user.username }}</span></span></a>
+    <div class="cms-side__links">
+      <a href="{% url 'home' %}" target="_blank">View site ↗</a>
+      <form method="post" action="{% url 'cms:logout' %}">{% csrf_token %}<button type="submit">Sign out</button></form>
+      <button type="button" class="theme-toggle" aria-label="Dark theme" aria-pressed="false"><svg class="i-moon" aria-hidden="true"><use href="#i-moon"/></svg><svg class="i-sun" aria-hidden="true"><use href="#i-sun"/></svg></button>
+    </div>
+  </div>
+</aside>
+{% endwith %}
+<main class="cms-main" id="main">
+  {% if messages %}<div class="toasts" role="status">{% for m in messages %}<p class="toast toast--{{ m.tags }}">{{ m }}</p>{% endfor %}</div>{% endif %}
+  {% block main %}{% endblock %}
+</main>
+<script src="{% static 'js/site.js' %}" defer></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

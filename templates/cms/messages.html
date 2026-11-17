@@ -1,0 +1,29 @@
+{% extends "cms/base.html" %}
+{% block title %}Messages{% endblock %}
+{% block main %}
+<header class="cms-head"><div><p class="label">Contact form</p><h1>Messages</h1></div></header>
+{% if items %}
+<ul class="msgs">
+  {% for m in items %}
+  <li class="msg{% if not m.read %} msg--new{% endif %}">
+    <details{% if not m.read and forloop.first %} open{% endif %}>
+      <summary>
+        <span class="dot{% if not m.read %} dot--on{% endif %}" aria-label="{% if m.read %}Read{% else %}Unread{% endif %}"></span>
+        <span class="list__main"><b>{{ m.name }}</b> <span class="muted">· {{ m.topic }}</span><span class="list__sub">{{ m.message|truncatechars:120 }}</span></span>
+        <span class="meta">{{ m.created_at|date:"d M Y, H:i" }}</span>
+      </summary>
+      <div class="msg__body">
+        <p class="meta"><a href="mailto:{{ m.email }}?subject=Re: {{ m.topic|urlencode }}">{{ m.email }}</a></p>
+        <p class="msg__text">{{ m.message|linebreaksbr }}</p>
+        <div class="btn-row">
+          <a class="btn btn--solid btn--sm" href="mailto:{{ m.email }}?subject=Re: {{ m.topic|urlencode }}">Reply by email</a>
+          <form method="post" action="{% url 'cms:message_action' m.pk %}">{% csrf_token %}<button class="btn btn--sm" name="action" value="{% if m.read %}unread{% else %}read{% endif %}">Mark as {% if m.read %}unread{% else %}read{% endif %}</button></form>
+          <form method="post" action="{% url 'cms:message_action' m.pk %}" onsubmit="return confirm('Delete this message?')">{% csrf_token %}<button class="btn btn--sm btn--danger" name="action" value="delete">Delete</button></form>
+        </div>
+      </div>
+    </details>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}<p class="cms-empty">No messages yet. They land here from the Contact page.</p>{% endif %}
+{% endblock %}
