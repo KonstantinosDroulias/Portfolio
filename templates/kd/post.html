@@ -26,7 +26,7 @@
   <div class="post-body-wrap">
     <div class="reading">
       <div class="byline">
-        <img class="avatar" src="{{ author.avatar_url }}" alt="" width="48" height="48">
+        <span class="avatar"><img src="{{ author.photo_url }}" alt="" width="48" height="48"></span>
         <span><span class="byline__name">{{ author.name }}</span>{% if author.role_line %}<span class="byline__role">{{ author.role_line }}</span>{% endif %}</span>
       </div>
 
@@ -44,7 +44,7 @@
         </div>
 
         <div class="author-box">
-          <img src="{{ author.avatar_url }}" alt="{{ author.name }}" width="88" height="88" loading="lazy">
+          <span class="avatar avatar--lg"><img src="{{ author.photo_url }}" alt="{{ author.name }}" width="88" height="88" loading="lazy"></span>
           <div class="author-box__copy">
             <span class="label">Written by</span>
             <span class="author-box__name">{{ author.name }}</span>
