@@ -30,7 +30,7 @@
   </nav>
   <a class="btn btn--solid cms-side__new" href="{% url 'cms:post_new' %}"><svg aria-hidden="true"><use href="#i-plus"/></svg>New post</a>
   <div class="cms-side__foot">
-    <a class="cms-me" href="{% url 'cms:profile' %}"><img src="{{ me.avatar_url }}" alt="" width="36" height="36"><span><b>{{ me.name }}</b><span>{{ request.user.username }}</span></span></a>
+    <a class="cms-me" href="{% url 'cms:profile' %}"><span class="avatar avatar--sm"><img src="{{ me.photo_url }}" alt="" width="36" height="36"></span><span><b>{{ me.name }}</b><span>{{ request.user.username }}</span></span></a>
     <div class="cms-side__links">
       <a href="{% url 'home' %}" target="_blank">View site ↗</a>
       <form method="post" action="{% url 'cms:logout' %}">{% csrf_token %}<button type="submit">Sign out</button></form>

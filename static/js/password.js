@@ -43,7 +43,8 @@
     ["One number", (v) => /\d/.test(v)],
   ].map(([text, test]) => ({ li: item(text), test }));
   const match = confirm ? item("Both passwords match") : null;
-  main.closest(".pw").after(list);
+  const group = main.closest("[data-pw-group]");
+  if (group) { list.classList.add("pw-checks--group"); group.after(list); } else main.closest(".pw").after(list);
 
   function item(text) {
     const li = document.createElement("li");

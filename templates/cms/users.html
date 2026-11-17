@@ -6,7 +6,7 @@
   <ul class="list">
     {% for u in people %}
     <li class="list__row">
-      <img class="list__avatar" src="{{ u.profile.avatar_url }}" alt="" width="40" height="40">
+      <span class="avatar list__avatar"><img src="{{ u.profile.photo_url }}" alt="" width="40" height="40"></span>
       <span class="list__main"><b>{{ u.profile.name }}</b><span class="list__sub">{{ u.username }}{% if u.email %} · {{ u.email }}{% endif %} · {% if u.is_superuser %}Full access{% else %}Writer{% endif %}{% if u.last_login %} · last in {{ u.last_login|date:"d M Y" }}{% endif %}</span></span>
       <span class="tag{% if u.is_active %} tag--published{% endif %}">{% if u.is_active %}Active{% else %}Off{% endif %}</span>
       {% if u != request.user %}<form method="post" action="{% url 'cms:user_toggle' u.pk %}">{% csrf_token %}<button class="btn btn--sm">{% if u.is_active %}Switch off{% else %}Switch on{% endif %}</button></form>{% else %}<span class="meta">You</span>{% endif %}

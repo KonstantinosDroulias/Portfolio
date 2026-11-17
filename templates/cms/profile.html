@@ -5,8 +5,8 @@
 <form method="post" enctype="multipart/form-data" class="cms-block" data-guard>
   {% csrf_token %}
   <div class="profile-photo">
-    <img src="{{ prof.avatar_url }}" alt="Your avatar" width="120" height="120">
-    <div class="field"><label for="{{ form.new_photo.id_for_label }}">New photo</label>{{ form.new_photo }}<p class="hint">{{ form.new_photo.help_text }}</p>{% for e in form.new_photo.errors %}<p class="err">{{ e }}</p>{% endfor %}</div>
+    <span class="avatar avatar--xl"><img src="{{ prof.photo_url }}" alt="Your photo" width="120" height="120"></span>
+    <div class="field"><label for="{{ form.new_photo.id_for_label }}">New photo</label>{{ form.new_photo }}<p class="hint">A cut-out PNG/WebP works best.</p>{% for e in form.new_photo.errors %}<p class="err">{{ e }}</p>{% endfor %}</div>
   </div>
   <p class="hint">This is how you appear on your posts: byline, author box and the admin bar.</p>
   <div class="fields">
@@ -26,7 +26,7 @@
 <form method="post" class="cms-block">
   {% csrf_token %}
   <div class="cms-block__head"><h2>Password</h2></div>
-  <div class="fields">
+  <div class="fields fields--3" data-pw-group>
     {% include "cms/_field.html" with f=pw_form.old_password %}
     {% include "cms/_field.html" with f=pw_form.new_password1 %}
     {% include "cms/_field.html" with f=pw_form.new_password2 %}

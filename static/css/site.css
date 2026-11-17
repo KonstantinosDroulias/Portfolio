@@ -416,7 +416,9 @@ a.tcard__url:hover { text-decoration: underline; text-underline-offset: 4px; }
 .pw__eye:hover, .pw__eye[aria-pressed="true"] { color: var(--fg); }
 .pw__eye svg { width: 18px; height: 18px; }
 .pw input[type="text"] { font-family: var(--mono); }
-.pw-checks { list-style: none; margin: 4px 0 0; padding: 0; display: flex; flex-direction: column; gap: 8px; font-size: 14px; color: var(--muted); }
+.pw-checks { list-style: none; margin: 4px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px 28px; font-size: 14px; color: var(--muted); }
+.pw-checks--group { margin: -16px 0 32px; }
+@media (max-width: 640px) { .pw-checks { flex-direction: column; } }
 .pw-checks li { display: flex; align-items: center; gap: 10px; transition: color .15s; }
 .pw-checks__box { width: 16px; height: 16px; flex: none; border: 1px solid var(--line); display: grid; place-items: center; }
 .pw-checks li[data-state="ok"] { color: var(--fg); }
