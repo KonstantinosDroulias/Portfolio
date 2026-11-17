@@ -23,7 +23,19 @@
   </ul>
 </section>
 
-<section class="wrap section" aria-labelledby="edu-h">
+<section class="wrap section" aria-labelledby="tools-h">
+  <div class="section__head"><h2 id="tools-h">Tools I use</h2><p class="muted" style="margin:0">Chosen for the job, not the other way round.</p></div>
+  <ul class="tools">{% for t in tools %}<li>{{ t }}</li>{% endfor %}</ul>
+</section>
+
+{% if site.now_rows %}
+<section class="wrap section" aria-labelledby="now-h">
+  <div class="section__head"><h2 id="now-h">Now</h2><span class="label">Updated {{ site.now_updated|date:"F Y" }}</span></div>
+  <ul class="now">{% for label, text in site.now_rows %}<li><span class="label">{{ label }}</span><span>{{ text }}</span></li>{% endfor %}</ul>
+</section>
+{% endif %}
+
+<section class="wrap section section--last" aria-labelledby="edu-h">
   <h2 id="edu-h" class="section__head">Education</h2>
   <ul class="edu">
     {% for e in education %}
@@ -39,18 +51,6 @@
     {% endfor %}
   </ul>
 </section>
-
-<section class="wrap section" aria-labelledby="tools-h">
-  <div class="section__head"><h2 id="tools-h">Tools I use</h2><p class="muted" style="margin:0">Chosen for the job, not the other way round.</p></div>
-  <ul class="tools">{% for t in tools %}<li>{{ t }}</li>{% endfor %}</ul>
-</section>
-
-{% if site.now_rows %}
-<section class="wrap section section--last" aria-labelledby="now-h">
-  <div class="section__head"><h2 id="now-h">Now</h2><span class="label">Updated {{ site.now_updated|date:"F Y" }}</span></div>
-  <ul class="now">{% for label, text in site.now_rows %}<li><span class="label">{{ label }}</span><span>{{ text }}</span></li>{% endfor %}</ul>
-</section>
-{% endif %}
 
 <section class="invert" aria-labelledby="talk-h">
   <div class="wrap invert__in">
