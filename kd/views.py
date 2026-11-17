@@ -166,7 +166,7 @@ def work(request):
 def about(request):
     site = SiteSettings.load()
     return render(request, "kd/about.html", {
-        "nav": "about", "what": content.WHAT_I_DO, "tools": content.TOOLS, "person": owner(),
+        "nav": "about", "what": content.WHAT_I_DO, "tools": content.TOOLS, "education": content.EDUCATION, "person": owner(),
         "jsonld": [person_jsonld(site)],
         "meta_title": "About — Konstantinos Droulias",
         "meta_description": "Konstantinos Droulias is a backend developer and final-year Computer Science student in Greece who builds ERPs, APIs, e-commerce platforms and automations.",

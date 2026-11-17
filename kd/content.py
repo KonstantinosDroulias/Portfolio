@@ -40,5 +40,18 @@ WHAT_I_DO = [
     ("03", "Running stores", "I build and run real e-shops, so what I make for clients is tested on real orders first."),
 ]
 
-TOOLS = ["Python", "Django + DRF", "Go", "PostgreSQL", "PHP", "WordPress", "WooCommerce", "OpenCart",
-         "React + Vite", "TypeScript", "Docker", "Nginx", "Claude Code", "Codex"]
+TOOLS = ["Python", "Django + DRF", "Go", "C++", "Java", "PostgreSQL", "MySQL", "PHP", "WordPress", "WooCommerce", "OpenCart",
+         "React + Vite", "TypeScript", "Docker", "Nginx", "Hostinger", "Claude Code", "Codex"]
+
+EDUCATION = [
+    {"years": "2024 — 2027", "logo": "img/new-york-college.webp", "logo_w": 306, "logo_h": 220,
+     "title": "BSc (Hons) Computer Science",
+     "school": "University of Greater Manchester, taught at New York College, Athens",
+     "detail": "Final year, graduating in 2027. A full course on MySQL databases, plus coursework I took further "
+               "than the brief: Java desktop apps with Swing and JDBC/MySQL, and a Django CRM with role-based access."},
+    {"years": "2012 — 2024", "logo": "img/leonteios.webp", "logo_w": 269, "logo_h": 220,
+     "title": "Λεόντειος Σχολή Νέας Σμύρνης",
+     "school": "High school diploma",
+     "detail": "Where I started programming: the team's programmer at the Panhellenic Robotics Competition (LEGO), "
+               "and part of the school's volunteer team."},
+]

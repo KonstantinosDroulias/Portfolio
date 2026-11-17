@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 {% block main %}
 <section class="wrap hero" aria-labelledby="about-h">
   <div class="hero__copy">
@@ -19,6 +20,23 @@
   <h2 id="do-h" class="section__head">What I do</h2>
   <ul class="cols-3">
     {% for n, name, text in what %}<li><span class="card__n">{{ n }}</span><h3>{{ name }}</h3><p>{{ text }}</p></li>{% endfor %}
+  </ul>
+</section>
+
+<section class="wrap section" aria-labelledby="edu-h">
+  <h2 id="edu-h" class="section__head">Education</h2>
+  <ul class="edu">
+    {% for e in education %}
+    <li class="edu__item">
+      <span class="edu__logo"><img src="{% static e.logo %}" alt="" width="{{ e.logo_w }}" height="{{ e.logo_h }}" loading="lazy"></span>
+      <div class="edu__copy">
+        <span class="label">{{ e.years }}</span>
+        <h3 lang="{% if forloop.last %}el{% else %}en{% endif %}">{{ e.title }}</h3>
+        <p class="edu__school">{{ e.school }}</p>
+        <p class="edu__detail">{{ e.detail }}</p>
+      </div>
+    </li>
+    {% endfor %}
   </ul>
 </section>
 
