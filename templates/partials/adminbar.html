@@ -13,7 +13,7 @@
     <div class="adminbar__group">
       <a class="adminbar__me" href="{% url 'cms:profile' %}" aria-label="Your profile: {{ request.user.username }}">
         <span class="hide-sm">{{ request.user.username }}</span>
-        <img src="{{ me.avatar_url }}" alt="" width="28" height="28">
+        <span class="adminbar__photo"><img src="{{ me.photo_url }}" alt="" width="28" height="28"></span>
       </a>
     </div>
   </div>

@@ -112,7 +112,8 @@ a.chip:hover { border-color: var(--fg); }
 .adminbar svg { width: 15px; height: 15px; flex: none; }
 .adminbar__edit { background: #F2F2F2 !important; color: #0A0A0A !important; font-weight: 500; }
 .adminbar__edit:hover { background: #FFFFFF !important; }
-.adminbar__me img { width: 28px; height: 28px; object-fit: cover; background: #262626; }
+.adminbar__photo { width: 28px; height: 28px; flex: none; background: #262626; display: flex; align-items: flex-end; justify-content: center; overflow: hidden; }
+.adminbar__photo img { width: 100%; height: 100%; object-fit: contain; object-position: bottom center; }
 .adminbar__state { font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #9A9A9A; padding: 0 14px; }
 body:has(.adminbar) { --bar: 44px; }
 @media (max-width: 640px) { .adminbar .hide-sm { display: none; } }
