@@ -78,7 +78,7 @@ class Profile(models.Model):
 class SiteSettings(models.Model):
     """Single row: contact details and site-wide text that the owner edits in the CMS."""
     email = models.EmailField(default="me@konstantinosdroulias.com")
-    based_in = models.CharField(max_length=120, default="Piraeus, Greece")
+    based_in = models.CharField(max_length=120, default="Nea Smyrni, Athens")
     currently = models.CharField(max_length=200, default="Building business systems at DKN Media")
     agency_name = models.CharField(max_length=80, default="DKN Media")
     agency_url = models.URLField(default="https://dknmedia.gr")

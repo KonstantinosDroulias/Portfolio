@@ -37,7 +37,7 @@ def person_jsonld(site):
         "image": settings.SITE_URL + static("img/konstantinos.webp"),
         "jobTitle": "Backend Developer",
         "worksFor": {"@type": "Organization", "name": site.agency_name, "url": site.agency_url},
-        "address": {"@type": "PostalAddress", "addressLocality": site.based_in.split(",")[0], "addressCountry": "GR"},
+        "address": {"@type": "PostalAddress", "addressLocality": site.based_in.split(",")[0].strip(), "addressRegion": "Attica", "addressCountry": "GR"},
         "alumniOf": "University of Greater Manchester (New York College Athens)",
         "knowsAbout": ["Django", "Python", "Go", "PostgreSQL", "WooCommerce", "ERP systems", "E-commerce"],
         "sameAs": [url for _, url in site.socials()],

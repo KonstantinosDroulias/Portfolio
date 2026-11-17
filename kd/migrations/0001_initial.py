@@ -49,7 +49,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('email', models.EmailField(default='me@konstantinosdroulias.com', max_length=254)),
-                ('based_in', models.CharField(default='Piraeus, Greece', max_length=120)),
+                ('based_in', models.CharField(default='Nea Smyrni, Athens', max_length=120)),
                 ('currently', models.CharField(default='Building business systems at DKN Media', max_length=200)),
                 ('agency_name', models.CharField(default='DKN Media', max_length=80)),
                 ('agency_url', models.URLField(default='https://dknmedia.gr')),
