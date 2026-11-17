@@ -100,6 +100,9 @@ class SiteSettings(models.Model):
     )
     now_updated = models.DateField(default=timezone.localdate)
     notify_email = models.EmailField(blank=True, help_text="Where contact messages are emailed (when mail is set up on the server).")
+    analytics_id = models.CharField(
+        "Google Analytics ID", max_length=20, blank=True,
+        help_text="Optional, e.g. G-XXXXXXX. When set, visitors are asked to accept before anything loads.")
 
     class Meta:
         verbose_name = "Site settings"

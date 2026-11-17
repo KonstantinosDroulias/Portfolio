@@ -35,7 +35,7 @@ class SiteTests(TestCase):
     def test_public_pages(self):
         for url in ["/", "/writing/", "/work/", "/about/", "/contact/", "/feed/", "/sitemap.xml", "/robots.txt",
                     "/writing/topic/e-commerce/", "/writing/tag/django/", "/writing/?q=plugin",
-                    "/writing/one-system-behind-every-store/"]:
+                    "/writing/one-system-behind-every-store/", "/privacy/", "/llms.txt", "/llms-full.txt"]:
             r = self.client.get(url)
             self.assertEqual(r.status_code, 200, url)
         self.assertEqual(self.client.get("/nope/").status_code, 404)
@@ -49,6 +49,15 @@ class SiteTests(TestCase):
         self.assertNotIn("adminbar", post)
         self.assertIn("https://konstantinosdroulias.com/sitemap.xml", self.client.get("/robots.txt").content.decode())
         self.assertIn("https://konstantinosdroulias.com/writing/", self.client.get("/sitemap.xml").content.decode())
+        llms = self.client.get("/llms.txt").content.decode()
+        self.assertTrue(llms.startswith("# Konstantinos Droulias"))
+        self.assertIn("/writing/one-system-behind-every-store/", llms)
+        self.assertIn("## The hub", self.client.get("/llms-full.txt").content.decode())
+        robots = self.client.get("/robots.txt").content.decode()
+        self.assertIn("User-agent: GPTBot", robots)
+        self.assertIn("User-agent: ClaudeBot", robots)
+        self.assertIn('id="consent"', home)
+        self.assertIn('popovertarget="a11y"', home)
 
     def test_preview_host_is_noindex(self):
         r = self.client.get("/", HTTP_HOST="preview.test")

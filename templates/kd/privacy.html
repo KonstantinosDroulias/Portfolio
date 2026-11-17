@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block main %}
+<article class="reading legal">
+  <p class="label label--lg">Last updated 18 November 2026</p>
+  <h1>Privacy policy</h1>
+  <p class="legal__lead">This is a personal website. It collects as little as possible: what you send through the contact form, and the basic server logs every website keeps. Nothing is sold or used for ads.</p>
+
+  <div class="prose">
+    <h2 id="who">Who is responsible</h2>
+    <p>Konstantinos Droulias, {{ site.based_in }}{% if "Greece" not in site.based_in %}, Greece{% endif %}. For anything about your data, email <a href="mailto:{{ site.email }}">{{ site.email }}</a>.</p>
+
+    <h2 id="contact-form">The contact form</h2>
+    <p>When you send a message I receive your name, your email address, the topic you picked, your message and your IP address. I use them only to read and answer your message, and the IP address only to stop spam. The legal basis is your request (article 6(1)(b) GDPR) and my legitimate interest in keeping the form free of abuse (article 6(1)(f)).</p>
+    <p>Messages are kept for as long as the conversation is useful, and at most 24 months. You can ask me to delete yours at any time. When I reply, the email goes through my mail provider, Google Workspace.</p>
+
+    <h2 id="logs">Server logs</h2>
+    <p>Like every web server, this one records each request: IP address, date and time, the page requested, the browser's user agent and the referring page. The logs are used to keep the site secure and working, are not combined with anything else, and are deleted automatically after 14 days.</p>
+
+    <h2 id="cookies">Cookies and local storage</h2>
+    <p>The site only stores what it needs to work:</p>
+    <ul>
+      <li><code>csrftoken</code>: a security cookie set when you open the contact form, so nobody can send messages in your name. It expires after a year.</li>
+      <li><code>sessionid</code>: only for people who sign in to manage the site. Visitors never get it.</li>
+      <li>Your choices on this site, kept in your own browser (local storage), not sent anywhere: light or dark theme, accessibility settings, and that you have seen the cookie notice.</li>
+    </ul>
+    {% if site.analytics_id %}
+    <p>With your permission only, the site also loads <strong>Google Analytics</strong> to count visits and see which posts are read. It sets cookies starting with <code>_ga</code> that last up to two years, and IP addresses are not stored by Google Analytics 4. If you reject, nothing loads. You can change your choice at any time with “Cookie settings” at the bottom of every page.</p>
+    {% else %}
+    <p>There are no analytics, advertising or tracking cookies, and no third-party scripts. Fonts and images are served from this server.</p>
+    {% endif %}
+
+    <h2 id="hosting">Where the data lives</h2>
+    <p>The site runs on a server rented from Hostinger in Frankfurt, Germany, inside the EU. Contact messages are stored in the site's database on that server, with nightly backups on the same server that only the administrator can read, kept for 14 days.</p>
+
+    <h2 id="rights">Your rights</h2>
+    <p>You can ask to see the data I hold about you, correct it, delete it, limit how it is used, object to its use, or get a copy. Email <a href="mailto:{{ site.email }}">{{ site.email }}</a> and I'll reply within 30 days. You can also complain to the Hellenic Data Protection Authority (<a href="https://www.dpa.gr" rel="noopener" target="_blank">dpa.gr</a>).</p>
+
+    <h2 id="changes">Changes</h2>
+    <p>If this policy changes, the date at the top changes with it.</p>
+  </div>
+</article>
+{% endblock %}

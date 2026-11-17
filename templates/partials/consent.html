@@ -1,0 +1,9 @@
+<section class="consent" id="consent" aria-label="Cookies" hidden data-analytics="{{ site.analytics_id }}">
+  {% if site.analytics_id %}
+  <p>I'd like to use Google Analytics to see which posts people read. Nothing is tracked unless you accept. <a href="{% url 'privacy' %}#cookies">Privacy policy</a></p>
+  <div class="consent__actions"><button type="button" class="btn btn--sm" data-consent="rejected">Reject</button><button type="button" class="btn btn--solid btn--sm" data-consent="accepted">Accept</button></div>
+  {% else %}
+  <p>This site only uses the cookies it needs to work. No tracking, no ads. <a href="{% url 'privacy' %}#cookies">Privacy policy</a></p>
+  <div class="consent__actions"><button type="button" class="btn btn--solid btn--sm" data-consent="necessary">OK</button></div>
+  {% endif %}
+</section>

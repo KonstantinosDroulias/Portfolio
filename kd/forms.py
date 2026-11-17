@@ -80,9 +80,17 @@ class SiteSettingsForm(forms.ModelForm):
     class Meta:
         model = SiteSettings
         fields = ["email", "notify_email", "based_in", "currently", "agency_name", "agency_url",
-                  "github", "linkedin", "instagram", "x", "now_items", "now_updated"]
+                  "github", "linkedin", "instagram", "x", "now_items", "now_updated", "analytics_id"]
         widgets = {"now_items": forms.Textarea(attrs={"rows": 6}),
                    "now_updated": forms.DateInput(attrs={"type": "date"}, format="%Y-%m-%d")}
+
+
+    def clean_analytics_id(self):
+        import re
+        v = self.cleaned_data["analytics_id"].strip().upper()
+        if v and not re.fullmatch(r"G-[A-Z0-9]{4,16}", v):
+            raise forms.ValidationError("Use the GA4 measurement ID, like G-ABC123XYZ.")
+        return v
 
 
 class CVForm(forms.Form):

@@ -42,6 +42,10 @@
     {% include "cms/_field.html" with f=form.now_items wide=1 %}
     {% include "cms/_field.html" with f=form.now_updated %}
   </div>
+  <div class="cms-block__head"><h2>Analytics</h2></div>
+  <div class="fields">
+    {% include "cms/_field.html" with f=form.analytics_id %}
+  </div>
   <div class="savebar"><a class="btn" href="{% url 'cms:settings' %}" data-discard hidden>Discard changes</a><button class="btn btn--solid" type="submit">Save changes</button></div>
 </form>
 {% endblock %}

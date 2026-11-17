@@ -38,7 +38,7 @@
       <div class="field"><label for="id_message">Message</label><textarea id="id_message" name="message" rows="6" required maxlength="5000">{{ form.message.value|default:'' }}</textarea>{% for e in form.message.errors %}<p class="err">{{ e }}</p>{% endfor %}</div>
       <div class="hp" aria-hidden="true"><label for="id_website">Website</label><input type="text" id="id_website" name="website" tabindex="-1" autocomplete="off"></div>
       <div class="form__foot">
-        <p class="form__note">I only use your email to reply.</p>
+        <p class="form__note">I only use your email to reply. <a href="{% url 'privacy' %}">Privacy policy</a></p>
         <button class="btn btn--solid" type="submit">Send message <svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
       </div>
     </form>

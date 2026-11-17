@@ -18,13 +18,13 @@ class StaticSitemap(Https):
     changefreq = "monthly"
 
     def items(self):
-        return ["home", "writing", "work", "about", "contact"]
+        return ["home", "writing", "work", "about", "contact", "privacy"]
 
     def location(self, item):
         return reverse(item)
 
     def priority(self, item):
-        return 1.0 if item == "home" else 0.7
+        return 1.0 if item == "home" else 0.2 if item == "privacy" else 0.7
 
 
 class PostSitemap(Https):

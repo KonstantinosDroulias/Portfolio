@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<script>try{document.querySelector('meta[name="color-scheme"]').content=localStorage.getItem("color-scheme")??"light dark"}catch(e){}</script>
+<script>try{document.querySelector('meta[name="color-scheme"]').content=localStorage.getItem("color-scheme")??"light dark";const a=JSON.parse(localStorage.getItem("a11y")||"{}"),r=document.documentElement;for(const k in a)if(a[k])r.dataset["a11y"+k[0].toUpperCase()+k.slice(1)]=a[k]}catch(e){}</script>
 <title>{{ meta_title }}</title>
 <meta name="description" content="{{ meta_description }}">
 <link rel="canonical" href="{{ canonical_override|default:canonical }}">
@@ -20,6 +20,7 @@
 <meta name="twitter:card" content="summary_large_image">
 {% block head_extra %}{% endblock %}
 <link rel="alternate" type="application/rss+xml" title="Konstantinos Droulias — Writing" href="{% url 'feed' %}">
+<link rel="alternate" type="text/plain" title="Site summary for language models" href="/llms.txt">
 <link rel="icon" href="{% static 'img/favicon.svg' %}" type="image/svg+xml">
 <link rel="preload" href="{% static 'fonts/ibm-plex-sans-latin-400-normal.woff2' %}" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="{% static 'fonts/ibm-plex-sans-latin-600-normal.woff2' %}" as="font" type="font/woff2" crossorigin>
@@ -35,6 +36,8 @@
 {% block before_main %}{% endblock %}
 <main id="main">{% block main %}{% endblock %}</main>
 {% include "partials/footer.html" %}
+{% include "partials/a11y.html" %}
+{% include "partials/consent.html" %}
 <script src="{% static 'js/site.js' %}" defer></script>
 </body>
 </html>

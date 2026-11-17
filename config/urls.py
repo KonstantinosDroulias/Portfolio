@@ -18,9 +18,12 @@ urlpatterns = [
     path("about/", views.about, name="about"),
     path("contact/", views.contact, name="contact"),
     path("cv/", views.cv, name="cv"),
+    path("privacy/", views.privacy, name="privacy"),
     path("feed/", LatestPosts(), name="feed"),
     path("sitemap.xml", sitemap, {"sitemaps": SITEMAPS}, name="sitemap"),
     path("robots.txt", views.robots, name="robots"),
+    path("llms.txt", views.llms_txt, name="llms"),
+    path("llms-full.txt", views.llms_full_txt, name="llms_full"),
     path("admin/", include("kd.cms_urls")),
 ]
 if settings.DEBUG:

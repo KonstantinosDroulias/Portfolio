@@ -209,11 +209,83 @@ def contact(request):
         "meta_description": "Get in touch with Konstantinos Droulias about a website, an e-shop or a business system."})
 
 
+def privacy(request):
+    return render(request, "kd/privacy.html", {
+        "meta_title": "Privacy policy — Konstantinos Droulias",
+        "meta_description": "What konstantinosdroulias.com collects, why, how long it is kept and your rights.",
+    })
+
+
 def cv(request):
     site = SiteSettings.load()
     if site.cv:
         return redirect(site.cv.url)
     return redirect(static("cv/konstantinos-droulias-cv.pdf"))
+
+
+AI_BOTS = ["GPTBot", "OAI-SearchBot", "ChatGPT-User", "ClaudeBot", "Claude-SearchBot", "Claude-User",
+           "PerplexityBot", "Perplexity-User", "Google-Extended", "Applebot-Extended", "Bingbot", "CCBot", "meta-externalagent"]
+
+
+def _llms_intro(site):
+    return [
+        "# Konstantinos Droulias",
+        "",
+        "> Backend developer based in " + site.based_in + ("" if "Greece" in site.based_in else ", Greece") + ". Builds business systems: ERPs, REST APIs, "
+        "e-commerce platforms, integrations and automations, mostly with Python, Django, PostgreSQL and Go. "
+        "Founder of " + site.agency_name + " (" + site.agency_url + "). Final-year BSc (Hons) Computer Science student, "
+        "University of Greater Manchester (New York College Athens).",
+        "",
+        "This site is his portfolio and blog. Contact: " + site.email + ".",
+        "",
+    ]
+
+
+@require_GET
+def llms_txt(request):
+    site = SiteSettings.load()
+    base = settings.SITE_URL
+    lines = _llms_intro(site) + [
+        "## Pages",
+        "",
+        f"- [Home]({base}/): who he is, latest writing, what he runs",
+        f"- [About]({base}/about/): background, what he does, tools, what he is working on now",
+        f"- [Work]({base}/work/): projects and businesses with short descriptions",
+        f"- [Writing]({base}/writing/): all blog posts",
+        f"- [Contact]({base}/contact/): email and contact form",
+        f"- [CV]({base}/cv/): PDF",
+        "",
+        "## Posts",
+        "",
+    ]
+    for p in Post.objects.live().select_related("category"):
+        topic = f" ({p.category.name})" if p.category else ""
+        lines.append(f"- [{p.title}]({base}{p.get_absolute_url()}){topic}: {p.excerpt}".rstrip(": "))
+    lines += ["", "## Work", ""]
+    for w in content.WORK:
+        link = f"[{w['name']}]({w['url']})" if w["url"] else w["name"]
+        lines.append(f"- {link} ({w['kind']}): {w['desc']}")
+    lines += ["", "## Optional", "", f"- [Full text of every post]({base}/llms-full.txt)", f"- [RSS feed]({base}/feed/)", ""]
+    return HttpResponse("\n".join(lines), content_type="text/plain; charset=utf-8")
+
+
+@require_GET
+def llms_full_txt(request):
+    site = SiteSettings.load()
+    base = settings.SITE_URL
+    lines = _llms_intro(site)
+    for p in Post.objects.live().select_related("category", "author__profile"):
+        lines += [
+            "---", "",
+            f"# {p.title}", "",
+            f"URL: {base}{p.get_absolute_url()}",
+            f"Published: {p.published_at:%Y-%m-%d} · Author: {p.author.profile.name}"
+            + (f" · Topic: {p.category.name}" if p.category else ""), "",
+        ]
+        if p.excerpt:
+            lines += [f"> {p.excerpt}", ""]
+        lines += [p.body.strip(), ""]
+    return HttpResponse("\n".join(lines), content_type="text/plain; charset=utf-8")
 
 
 @require_GET
@@ -222,7 +294,12 @@ def robots(request):
     if host in settings.NOINDEX_HOSTS:
         body = "User-agent: *\nDisallow: /\n"
     else:
-        body = f"User-agent: *\nDisallow: /admin/\nAllow: /\n\nSitemap: {settings.SITE_URL}/sitemap.xml\n"
+        bots = "".join(f"User-agent: {b}\n" for b in AI_BOTS)
+        body = (
+            "# Search engines and AI assistants are welcome. Summary for language models: /llms.txt\n"
+            f"User-agent: *\nDisallow: /admin/\nAllow: /\n\n{bots}Disallow: /admin/\nAllow: /\n\n"
+            f"Sitemap: {settings.SITE_URL}/sitemap.xml\n"
+        )
     return HttpResponse(body, content_type="text/plain")
 
 
