@@ -66,8 +66,8 @@ DATABASES = {"default": {
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_PASSWORD_VALIDATORS = [
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator", "OPTIONS": {"min_length": 10}},
-    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
+    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator", "OPTIONS": {"min_length": 8}},
+    {"NAME": "kd.validators.MixedCaseDigitValidator"},
 ]
 LOGIN_URL = "cms:login"
 LOGIN_REDIRECT_URL = "cms:dashboard"

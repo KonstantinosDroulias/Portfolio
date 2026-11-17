@@ -19,7 +19,8 @@ def png(name="x.png", size=(60, 40)):
     return SimpleUploadedFile(name, buf.getvalue(), content_type="image/png")
 
 
-@override_settings(MEDIA_ROOT=MEDIA, NOINDEX_HOSTS=["preview.test"], ALLOWED_HOSTS=["*"])
+@override_settings(MEDIA_ROOT=MEDIA, NOINDEX_HOSTS=["preview.test"], ALLOWED_HOSTS=["*"],
+                   CACHES={"default": {"BACKEND": "django.core.cache.backends.locmem.LocMemCache"}})
 class SiteTests(TestCase):
     @classmethod
     def setUpTestData(cls):
@@ -98,7 +99,7 @@ class SiteTests(TestCase):
         r = self.client.post("/admin/settings/", {"upload_cv": "1", "cv": SimpleUploadedFile("cv.pdf", b"%PDF-1.4 test", content_type="application/pdf")})
         self.assertEqual(r.status_code, 302)
         # add a writer, who can only see own posts
-        r = self.client.post("/admin/users/", {"username": "writer", "password": "a-long-pass-123", "display_name": "W"})
+        r = self.client.post("/admin/users/", {"username": "writer", "password": "Long-pass-123", "display_name": "W"})
         self.assertEqual(r.status_code, 302)
         self.client.logout()
         writer = get_user_model().objects.get(username="writer")
@@ -121,3 +122,14 @@ class SiteTests(TestCase):
         self.assertContains(r, "Wrong username or password")
         r = self.client.post("/admin/login/", {"username": "konstantinos", "password": "right-password-1", "next": "/admin/posts/"})
         self.assertEqual(r["Location"], "/admin/posts/")
+
+
+
+class PasswordRuleTests(TestCase):
+    def test_rules(self):
+        from django.contrib.auth.password_validation import validate_password
+        from django.core.exceptions import ValidationError
+        validate_password("Smyrni26")  # 8 chars, upper, lower, number, no symbol: fine
+        for bad in ["Smyrni2", "smyrni26", "SMYRNI26", "Smyrnios"]:
+            with self.assertRaises(ValidationError, msg=bad):
+                validate_password(bad)

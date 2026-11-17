@@ -406,3 +406,20 @@ a.tcard__url:hover { text-decoration: underline; text-underline-offset: 4px; }
 
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; scroll-behavior: auto !important; } }
 @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+
+/* password field with show/hide eye */
+.pw { position: relative; display: flex; }
+.pw input { flex: 1; min-width: 0; padding-right: 52px !important; }
+.pw__eye { position: absolute; top: 0; right: 0; width: 48px; height: 100%; min-height: 44px; display: flex; align-items: center; justify-content: center; border: 0; background: transparent; color: var(--muted); cursor: pointer; padding: 0; }
+.pw__eye:hover, .pw__eye[aria-pressed="true"] { color: var(--fg); }
+.pw__eye svg { width: 18px; height: 18px; }
+.pw input[type="text"] { font-family: var(--mono); }
+.pw-checks { list-style: none; margin: 4px 0 0; padding: 0; display: flex; flex-direction: column; gap: 8px; font-size: 14px; color: var(--muted); }
+.pw-checks li { display: flex; align-items: center; gap: 10px; transition: color .15s; }
+.pw-checks__box { width: 16px; height: 16px; flex: none; border: 1px solid var(--line); display: grid; place-items: center; }
+.pw-checks li[data-state="ok"] { color: var(--fg); }
+.pw-checks li[data-state="ok"] .pw-checks__box { background: var(--fg); border-color: var(--fg); }
+.pw-checks li[data-state="ok"] .pw-checks__box::after { content: ""; width: 8px; height: 4px; border-left: 2px solid var(--bg); border-bottom: 2px solid var(--bg); transform: translateY(-1px) rotate(-45deg); }
+.pw-checks li[data-state="bad"] { color: light-dark(#B00020, #FF8A80); }
+.pw-checks li[data-state="bad"] .pw-checks__box { border-color: currentColor; }
+.pw-checks li[data-state="bad"] .pw-checks__box::after { content: ""; width: 6px; height: 6px; background: currentColor; }

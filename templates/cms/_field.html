@@ -1,6 +1,6 @@
 <div class="field{% if wide %} field--wide{% endif %}">
   <label for="{{ f.id_for_label }}">{{ f.label }}</label>
   {{ f }}
-  {% if f.help_text %}<p class="hint">{{ f.help_text }}</p>{% endif %}
+  {% if f.help_text and f.widget_type != "password" %}<p class="hint">{{ f.help_text }}</p>{% endif %}
   {% for e in f.errors %}<p class="err">{{ e }}</p>{% endfor %}
 </div>
