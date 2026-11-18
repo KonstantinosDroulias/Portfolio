@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block main %}
+<div class="wrap">
+  <section class="page-head">
+    <div class="page-head__copy">
+      <p class="label label--lg">Projects — {{ items|length }}</p>
+      <h1>Projects</h1>
+      <p class="lead">Side projects, experiments and coursework I took further than the brief. Not client work: that's under <a href="{% url 'work' %}">Work</a>.</p>
+    </div>
+  </section>
+
+  {% if items %}
+  <ul class="grid-2">
+    {% for p in items %}
+    <li class="tcard">
+      <p class="label">{% if p.year %}{{ p.year }}{% endif %}{% if p.year and p.kind %} · {% endif %}{{ p.kind }}</p>
+      <h2>{{ p.title }}</h2>
+      <p>{{ p.summary }}</p>
+      {% if p.stack_list %}<ul class="stack" aria-label="Built with">{% for s in p.stack_list %}<li>{{ s }}</li>{% endfor %}</ul>{% endif %}
+      {% if p.url %}<a class="tcard__url" href="{{ p.url }}" target="_blank" rel="noopener">{{ p.link_text }} <svg aria-hidden="true"><use href="#i-ext"/></svg></a>
+      {% elif p.link_label %}<span class="tcard__url muted">{{ p.link_label }}</span>{% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}<p class="empty">New projects are on their way.</p>{% endif %}
+  <div style="height:96px"></div>
+</div>
+{% endblock %}

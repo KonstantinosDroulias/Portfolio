@@ -244,3 +244,41 @@ class ContactMessage(models.Model):
 
     def __str__(self):
         return f"{self.name} <{self.email}>"
+
+
+class ProjectQuerySet(models.QuerySet):
+    def live(self):
+        return self.filter(published=True)
+
+
+class Project(models.Model):
+    """Side projects, experiments and coursework shown on /projects/. Managed from the CMS."""
+    title = models.CharField(max_length=120)
+    kind = models.CharField("Type", max_length=60, blank=True, help_text="Short label, like “Machine learning” or “Web app”")
+    year = models.CharField(max_length=20, blank=True, help_text="Like 2026 or 2025 — 2026")
+    summary = models.TextField(max_length=600, help_text="Two or three sentences: what it is, what you built it with")
+    stack = models.CharField(max_length=200, blank=True, help_text="Comma separated, like Django, React, Docker")
+    url = models.URLField("Link", blank=True)
+    link_label = models.CharField(max_length=80, blank=True, help_text="Shown instead of the address, like GitHub or Live site")
+    order = models.PositiveIntegerField(default=0, help_text="Lower numbers show first")
+    published = models.BooleanField("Show on the site", default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    objects = ProjectQuerySet.as_manager()
+
+    class Meta:
+        ordering = ["order", "-created_at"]
+
+    def __str__(self):
+        return self.title
+
+    @property
+    def stack_list(self):
+        return [s.strip() for s in self.stack.split(",") if s.strip()]
+
+    @property
+    def link_text(self):
+        if self.link_label:
+            return self.link_label
+        return self.url.split("://", 1)[-1].rstrip("/") if self.url else ""

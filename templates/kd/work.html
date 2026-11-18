@@ -3,30 +3,40 @@
 <div class="wrap">
   <section class="page-head">
     <div class="page-head__copy">
-      <p class="label label--lg">Work — {{ projects|length|add:1 }} projects</p>
+      <p class="label label--lg">Work — experience</p>
       <h1>Work</h1>
-      <p class="lead">Businesses I run and the systems I've built for them. Designed, built and maintained by me, from the database to the deploy.</p>
+      <p class="lead">The businesses I run and work for, and the systems I built in each. Designed, built and maintained by me, from the database to the deploy. Side projects are under <a href="{% url 'projects' %}">Projects</a>.</p>
     </div>
   </section>
 
-  <section class="feature" aria-labelledby="f-name">
-    <p class="label">{{ feature.n }} · {{ feature.kind }}</p>
-    <h2 id="f-name" class="feature__name">{{ feature.name }}</h2>
-    <p class="feature__desc">{{ feature.desc }}</p>
-    <a class="feature__url" href="{{ feature.url }}" target="_blank" rel="noopener">{{ feature.domain }} <svg aria-hidden="true"><use href="#i-ext"/></svg></a>
-  </section>
-
-  <ul class="grid-2">
-    {% for w in projects %}
-    <li class="tcard">
-      <p class="label">{{ w.n }} · {{ w.kind }}</p>
-      <h2>{{ w.name }}</h2>
-      <p>{{ w.desc }}</p>
-      {% if w.url %}<a class="tcard__url" href="{{ w.url }}" target="_blank" rel="noopener">{{ w.domain }} <svg aria-hidden="true"><use href="#i-ext"/></svg></a>
-      {% else %}<span class="tcard__url muted">{{ w.domain }}</span>{% endif %}
+  <ol class="xp">
+    {% for e in experience %}
+    <li class="xp__item">
+      <p class="xp__years">{{ e.years }}</p>
+      <div class="xp__body">
+        <p class="label">{{ e.role }}</p>
+        <h2 class="xp__org">{{ e.org }}</h2>
+        <p class="xp__desc">{{ e.desc }}</p>
+        {% if e.url %}<a class="xp__url" href="{{ e.url }}" target="_blank" rel="noopener">{{ e.domain }} <svg aria-hidden="true"><use href="#i-ext"/></svg></a>{% endif %}
+        {% if e.built %}
+        <ul class="xp__built" aria-label="Built at {{ e.org }}">
+          {% for b in e.built %}
+          <li>
+            <div class="xp__built-head">
+              <h3>{{ b.name }}</h3>
+              <span class="label">{{ b.kind }}</span>
+            </div>
+            <p>{{ b.desc }}</p>
+            {% if b.url %}<a class="xp__link" href="{{ b.url }}" target="_blank" rel="noopener">{{ b.domain }} <svg aria-hidden="true"><use href="#i-ext"/></svg></a>
+            {% elif b.domain %}<span class="xp__link muted">{{ b.domain }}</span>{% endif %}
+          </li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </div>
     </li>
     {% endfor %}
-  </ul>
+  </ol>
 
   <section class="cta" aria-labelledby="cta-h">
     <div><h2 id="cta-h">Want something like this for your business?</h2><p>Tell me how your business runs and I'll tell you what I'd build.</p></div>

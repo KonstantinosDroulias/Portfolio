@@ -1,37 +1,49 @@
 """Text-only content that rarely changes. Edit here and redeploy."""
 
-WORK = [
-    {"n": "01", "kind": "Agency · Founder", "name": "DKN Media", "url": "https://dknmedia.gr", "domain": "dknmedia.gr",
+# Everything below is paid or business work. Side projects live in the CMS (Projects).
+EXPERIENCE = [
+    {"years": "2026 — now", "role": "Founder · side project", "org": "BuildMySite", "url": "https://buildmysite.gr", "domain": "buildmysite.gr",
+     "desc": "A multi-tenant platform that builds and hosts fast, search-friendly websites for small businesses, "
+             "on a monthly plan.",
+     "built": []},
+    {"years": "2025 — now", "role": "Founder", "org": "DKN Media", "url": "https://dknmedia.gr", "domain": "dknmedia.gr",
      "desc": "Consulting first, then the complete system: websites, e-shops, client portals and the admin tools behind "
-             "them, for Greek businesses. Its own client platform handles requests, projects, files and messages.",
-     "feature": True, "home": True, "home_desc": "Consulting first, then complete business systems."},
-    {"n": "02", "kind": "Django REST · React", "name": "Mygrafistas ERP", "url": "", "domain": "Private system",
-     "desc": "The hub behind every store: orders, products, pricing rules, suppliers, staff permissions and live chat, "
-             "synced with each shop through a connector, with jobs and automations that replace manual work."},
-    {"n": "03", "kind": "Platform", "name": "DTF printing platform", "url": "https://dtf.mygrafistaseshop.gr", "domain": "dtf.mygrafistaseshop.gr",
-     "desc": "Gang-sheet builder with automatic layout, per-metre pricing, EU VAT checks, a bulk-order portal and "
-             "print-ready file export."},
-    {"n": "04", "kind": "Store", "name": "CustomGifts", "url": "https://customgifts.gr", "domain": "customgifts.gr",
-     "desc": "Promotional gifts for businesses. Moved off a page builder to its own theme and plugin: quantity price "
-             "tables, colour × size grids, add-ons and quotes.", "home": True, "home_desc": "Promotional gifts for businesses."},
-    {"n": "05", "kind": "Store · Mygrafistas", "name": "MyGrafistas", "url": "https://mygrafistaseshop.gr", "domain": "mygrafistaseshop.gr",
+             "them, for Greek businesses.",
+     "built": [
+         {"name": "Client platform", "kind": "WordPress · PHP", "url": "", "domain": "",
+          "desc": "Clients send requests, follow their projects, share files and message me in one place, with live chat in Go."},
+         {"name": "Website check", "kind": "Go", "url": "", "domain": "",
+          "desc": "A free tool on dknmedia.gr that checks a site's SEO, accessibility, e-shop basics and speed."},
+     ]},
+    {"years": "2024 — now", "role": "Lead developer", "org": "Mygrafistas", "url": "https://mygrafistaseshop.gr", "domain": "mygrafistaseshop.gr",
      "desc": "The family printing business since 2006: DTF transfers, stickers, apparel and promotional products. "
-             "I lead the development of its stores and systems.", "home": True, "home_desc": "Printing, DTF transfers and promotional products."},
-    {"n": "06", "kind": "Store · Mygrafistas brand", "name": "Kapella", "url": "https://kapella.gr", "domain": "kapella.gr",
-     "desc": "Custom-printed hats, a Mygrafistas brand. The test bed for the shared theme and ERP plugins before they "
-             "reach the other stores.", "home": True, "home_desc": "Custom-printed hats, a Mygrafistas brand."},
-    {"n": "07", "kind": "Store · In progress", "name": "StickerPro", "url": "", "domain": "Coming soon",
-     "desc": "A store that sells only custom PVC stickers, with a builder that prices each design by its area.",
-     "home": True, "home_desc": "Custom PVC stickers, nothing else."},
-    {"n": "08", "kind": "SaaS · Side project", "name": "BuildMySite", "url": "https://buildmysite.gr", "domain": "buildmysite.gr",
-     "desc": "A multi-tenant Django platform that builds and hosts fast, search-friendly sites for small businesses."},
-    {"n": "09", "kind": "WooCommerce plugin", "name": "Production planner", "url": "", "domain": "Internal tool",
-     "desc": "An admin page that turns the day's orders into a production plan across the print shops."},
-    {"n": "10", "kind": "Web app", "name": "Office check-in", "url": "", "domain": "Side project",
-     "desc": "An NFC check-in web app for the shared office I work from with two friends."},
-    {"n": "11", "kind": "Machine learning", "name": "Movie Recommender", "url": "https://github.com/KonstantinosDroulias/movie-recomender", "domain": "GitHub",
-     "desc": "Django and React app with my own item-based collaborative-filtering model (scikit-learn, 100k MovieLens "
-             "ratings), shipped with Docker, Nginx and PostgreSQL."},
+             "I build and run its stores and the systems behind them.",
+     "built": [
+         {"name": "Mygrafistas ERP", "kind": "Django REST · React", "url": "", "domain": "Private system",
+          "desc": "The hub behind every store: orders, products, pricing rules, suppliers, staff permissions and live chat, "
+                  "synced with each shop through a connector, with jobs and automations that replace manual work."},
+         {"name": "DTF printing platform", "kind": "WooCommerce · PHP", "url": "https://dtf.mygrafistaseshop.gr", "domain": "dtf.mygrafistaseshop.gr",
+          "desc": "Gang-sheet builder with automatic layout, per-metre pricing, EU VAT checks, a bulk-order portal and "
+                  "print-ready file export."},
+         {"name": "CustomGifts", "kind": "WooCommerce", "url": "https://customgifts.gr", "domain": "customgifts.gr",
+          "desc": "Promotional gifts for businesses. Moved off a page builder to its own theme and plugin: quantity price "
+                  "tables, colour × size grids, add-ons and quotes."},
+         {"name": "Kapella and the sub-brands", "kind": "WooCommerce · Marketing", "url": "https://kapella.gr", "domain": "kapella.gr",
+          "desc": "Built the stores and ran Google, Meta and SEO for the Mygrafistas sub-brands kapella.gr, conkarda.gr, "
+                  "stylo.gr and partyday.gr. Kapella is now the test bed for the shared theme and ERP plugins."},
+     ]},
+    {"years": "2023 — 2024", "role": "Video production", "org": "Mygrafistas", "url": "", "domain": "",
+     "desc": "Short and long-form videos for the business's social channels and ads.",
+     "built": []},
+]
+
+# The short list on the home page.
+HOME_WORK = [
+    {"name": "DKN Media", "url": "https://dknmedia.gr", "domain": "dknmedia.gr", "desc": "Consulting first, then complete business systems."},
+    {"name": "MyGrafistas", "url": "https://mygrafistaseshop.gr", "domain": "mygrafistaseshop.gr", "desc": "Printing, DTF transfers and promotional products."},
+    {"name": "CustomGifts", "url": "https://customgifts.gr", "domain": "customgifts.gr", "desc": "Promotional gifts for businesses."},
+    {"name": "Kapella", "url": "https://kapella.gr", "domain": "kapella.gr", "desc": "Custom-printed hats, a Mygrafistas brand."},
+    {"name": "BuildMySite", "url": "https://buildmysite.gr", "domain": "buildmysite.gr", "desc": "Fast websites for small businesses, on a monthly plan."},
 ]
 
 WHAT_I_DO = [

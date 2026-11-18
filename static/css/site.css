@@ -507,3 +507,35 @@ a.tcard__url:hover { text-decoration: underline; text-underline-offset: 4px; }
 .edu__school { margin: 0; font-weight: 500; }
 .edu__detail { margin: 0; color: var(--muted); line-height: 1.6; font-size: 15px; }
 @media (max-width: 480px) { .edu__item { flex-direction: column; padding: 20px; } }
+
+/* Work: experience timeline */
+.xp { position: relative; list-style: none; margin: 0 0 16px; padding: 0; }
+.xp::before { content: ""; position: absolute; left: 200px; top: 10px; bottom: 80px; width: 1px; background: var(--line); }
+.xp__item { position: relative; display: grid; grid-template-columns: 200px minmax(0, 1fr); padding-bottom: 80px; }
+.xp__item::before { content: ""; position: absolute; left: 196px; top: 6px; width: 9px; height: 9px; background: var(--fg); }
+.xp__years { margin: 0; padding-right: 24px; font: 500 14px/1.4 var(--mono); }
+.xp__body { padding-left: 48px; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.xp__org { font-size: clamp(32px, 4vw, 44px); letter-spacing: -0.03em; }
+.xp__desc { margin: 0; font-size: 18px; line-height: 1.65; color: var(--muted); max-width: 720px; }
+.xp__url { align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font: 400 13px var(--mono); }
+.xp__url svg, .xp__link svg { width: 14px; height: 14px; }
+.xp__built { list-style: none; margin: 12px 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.xp__built li { border: 1px solid var(--line); padding: 24px; display: flex; flex-direction: column; gap: 10px; }
+.xp__built-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 4px 12px; }
+.xp__built h3 { font-size: 20px; letter-spacing: -0.01em; }
+.xp__built p { margin: 0; font-size: 15px; line-height: 1.6; color: var(--muted); flex: 1; }
+.xp__link { margin-top: 4px; padding-top: 12px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; min-height: 44px; font: 400 12px var(--mono); text-decoration: none; }
+a.xp__link:hover { text-decoration: underline; text-underline-offset: 4px; }
+@media (max-width: 760px) {
+  .xp::before { left: 4px; bottom: 56px; }
+  .xp__item { grid-template-columns: minmax(0, 1fr); gap: 10px; padding-bottom: 56px; }
+  .xp__item::before { left: 0; top: 4px; }
+  .xp__years, .xp__body { padding-left: 32px; }
+  .xp__built { grid-template-columns: minmax(0, 1fr); }
+  .xp__built li { padding: 20px; }
+}
+
+/* Projects: stack chips */
+.stack { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.stack li { padding: 5px 8px; font: 400 12px/1.2 var(--mono); color: var(--fg); background: color-mix(in srgb, var(--fg) 7%, transparent); }
+.tcard > .label { flex: none; }

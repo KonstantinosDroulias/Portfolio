@@ -16,7 +16,7 @@ from django.views.decorators.http import require_GET
 
 from . import content
 from .forms import ContactForm
-from .models import Category, ContactMessage, Post, SiteSettings, Tag
+from .models import Category, ContactMessage, Post, Project, SiteSettings, Tag
 
 log = logging.getLogger(__name__)
 PER_PAGE = 12
@@ -53,7 +53,7 @@ def home(request):
     return render(request, "kd/home.html", {
         "nav": "home",
         "posts": Post.objects.live().select_related("category")[:4],
-        "projects": [p for p in content.WORK if p.get("home")],
+        "projects": content.HOME_WORK,
         "jsonld": [person_jsonld(site), json.dumps(website)],
         "person": owner(),
         "meta_title": "Konstantinos Droulias — Backend developer building business systems",
@@ -157,10 +157,18 @@ def post_detail(request, slug):
 
 
 def work(request):
-    feature = content.WORK[0]
-    return render(request, "kd/work.html", {"nav": "work", "feature": feature, "projects": content.WORK[1:],
+    return render(request, "kd/work.html", {"nav": "work", "experience": content.EXPERIENCE,
         "meta_title": "Work — Konstantinos Droulias",
-        "meta_description": "Business systems, e-shops and tools by Konstantinos Droulias: the DKN Media agency, the Mygrafistas ERP, a DTF printing platform, online stores and side projects."})
+        "meta_description": "Work experience of Konstantinos Droulias: founder of DKN Media and BuildMySite, lead developer at "
+                            "Mygrafistas, where he built the ERP, a DTF printing platform and the online stores."})
+
+
+def projects(request):
+    items = Project.objects.live()
+    return render(request, "kd/projects.html", {"nav": "projects", "items": items,
+        "meta_title": "Projects — Konstantinos Droulias",
+        "meta_description": "Side projects, experiments and coursework by Konstantinos Droulias: machine learning, "
+                            "web apps and tools, with the stack behind each one."})
 
 
 def about(request):
@@ -250,7 +258,8 @@ def llms_txt(request):
         "",
         f"- [Home]({base}/): who he is, latest writing, what he runs",
         f"- [About]({base}/about/): background, what he does, tools, what he is working on now",
-        f"- [Work]({base}/work/): projects and businesses with short descriptions",
+        f"- [Work]({base}/work/): work experience as a timeline, with the systems built in each role",
+        f"- [Projects]({base}/projects/): side projects, experiments and coursework",
         f"- [Writing]({base}/writing/): all blog posts",
         f"- [Contact]({base}/contact/): email and contact form",
         f"- [CV]({base}/cv/): PDF",
@@ -262,9 +271,18 @@ def llms_txt(request):
         topic = f" ({p.category.name})" if p.category else ""
         lines.append(f"- [{p.title}]({base}{p.get_absolute_url()}){topic}: {p.excerpt}".rstrip(": "))
     lines += ["", "## Work", ""]
-    for w in content.WORK:
-        link = f"[{w['name']}]({w['url']})" if w["url"] else w["name"]
-        lines.append(f"- {link} ({w['kind']}): {w['desc']}")
+    for e in content.EXPERIENCE:
+        org = f"[{e['org']}]({e['url']})" if e["url"] else e["org"]
+        lines.append(f"- {e['years']}, {e['role']}, {org}: {e['desc']}")
+        for b in e["built"]:
+            link = f"[{b['name']}]({b['url']})" if b["url"] else b["name"]
+            lines.append(f"  - {link} ({b['kind']}): {b['desc']}")
+    lines += ["", "## Projects", ""]
+    for pr in Project.objects.live():
+        link = f"[{pr.title}]({pr.url})" if pr.url else pr.title
+        extra = f" ({pr.kind})" if pr.kind else ""
+        stack = f" Stack: {pr.stack}." if pr.stack else ""
+        lines.append(f"- {link}{extra}: {pr.summary}{stack}")
     lines += ["", "## Optional", "", f"- [Full text of every post]({base}/llms-full.txt)", f"- [RSS feed]({base}/feed/)", ""]
     return HttpResponse("\n".join(lines), content_type="text/plain; charset=utf-8")
 

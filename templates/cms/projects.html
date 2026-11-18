@@ -1,0 +1,21 @@
+{% extends "cms/base.html" %}
+{% block title %}Projects{% endblock %}
+{% block main %}
+<header class="cms-head">
+  <div><p class="label">Site</p><h1>Projects</h1></div>
+  <a class="btn btn--solid" href="{% url 'cms:project_new' %}"><svg aria-hidden="true"><use href="#i-plus"/></svg>New project</a>
+</header>
+<p class="hint cms-intro">Side projects, experiments and coursework for the public <a href="{% url 'projects' %}" target="_blank">Projects</a> page. Lower order numbers show first.</p>
+{% if items %}
+<ul class="list">
+  {% for p in items %}
+  <li class="list__row">
+    <span class="tag{% if p.published %} tag--published{% endif %}">{% if p.published %}Shown{% else %}Hidden{% endif %}</span>
+    <a class="list__main" href="{% url 'cms:project_edit' p.pk %}"><b>{{ p.title }}</b><span class="list__sub">{{ p.kind|default:"No type" }}{% if p.year %} · {{ p.year }}{% endif %}</span></a>
+    <span class="meta">Order {{ p.order }}</span>
+    {% if p.url %}<a class="list__view" href="{{ p.url }}" target="_blank" aria-label="Open the link for “{{ p.title }}”"><svg aria-hidden="true"><use href="#i-ext"/></svg></a>{% else %}<span class="list__view" aria-hidden="true"></span>{% endif %}
+  </li>
+  {% endfor %}
+</ul>
+{% else %}<p class="cms-empty">No projects yet. <a href="{% url 'cms:project_new' %}">Add the first one</a>.</p>{% endif %}
+{% endblock %}

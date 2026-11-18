@@ -21,6 +21,7 @@
       <li><a href="{% url 'cms:dashboard' %}"{% if section == 'dashboard' %} aria-current="page"{% endif %}>Dashboard</a></li>
       <li><a href="{% url 'cms:posts' %}"{% if section == 'posts' %} aria-current="page"{% endif %}>Posts</a></li>
       {% if request.user.is_superuser %}
+      <li><a href="{% url 'cms:projects' %}"{% if section == 'projects' %} aria-current="page"{% endif %}>Projects</a></li>
       <li><a href="{% url 'cms:messages' %}"{% if section == 'messages' %} aria-current="page"{% endif %}>Messages{% if unread %}<span class="count">{{ unread }}</span>{% endif %}</a></li>
       <li><a href="{% url 'cms:settings' %}"{% if section == 'settings' %} aria-current="page"{% endif %}>Contact info &amp; CV</a></li>
       <li><a href="{% url 'cms:users' %}"{% if section == 'users' %} aria-current="page"{% endif %}>Users</a></li>

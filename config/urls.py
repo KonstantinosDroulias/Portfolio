@@ -15,6 +15,7 @@ urlpatterns = [
     path("writing/tag/<slug:tag>/", views.writing, name="tag"),
     path("writing/<slug:slug>/", views.post_detail, name="post"),
     path("work/", views.work, name="work"),
+    path("projects/", views.projects, name="projects"),
     path("about/", views.about, name="about"),
     path("contact/", views.contact, name="contact"),
     path("cv/", views.cv, name="cv"),

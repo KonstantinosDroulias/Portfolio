@@ -11,9 +11,9 @@ from django.utils import timezone
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.http import require_POST
 
-from .forms import CVForm, NewUserForm, PostForm, ProfileForm, SiteSettingsForm
+from .forms import CVForm, NewUserForm, PostForm, ProfileForm, ProjectForm, SiteSettingsForm
 from .markdown_render import render_markdown
-from .models import Category, ContactMessage, Post, Profile, SiteSettings, Upload
+from .models import Category, ContactMessage, Post, Profile, Project, SiteSettings, Upload
 
 
 def staff_required(view):
@@ -156,6 +156,34 @@ def upload(request):
         return JsonResponse({"error": "That file is not a readable image."}, status=400)
     up = Upload.objects.create(file=f, uploaded_by=request.user)
     return JsonResponse({"url": up.file.url})
+
+
+# ---------- projects ----------
+
+@owner_required
+def project_list(request):
+    return render(request, "cms/projects.html", _ctx(request, "projects", items=Project.objects.all()))
+
+
+@owner_required
+def project_edit(request, pk=None):
+    project = get_object_or_404(Project, pk=pk) if pk else Project()
+    form = ProjectForm(request.POST or None, instance=project)
+    if request.method == "POST" and form.is_valid():
+        saved = form.save()
+        messages.success(request, "Project saved.")
+        return redirect("cms:project_edit", pk=saved.pk)
+    return render(request, "cms/project_edit.html", _ctx(request, "projects", form=form, project=project))
+
+
+@owner_required
+@require_POST
+def project_delete(request, pk):
+    project = get_object_or_404(Project, pk=pk)
+    title = project.title
+    project.delete()
+    messages.success(request, f"Deleted “{title}”.")
+    return redirect("cms:projects")
 
 
 # ---------- messages ----------

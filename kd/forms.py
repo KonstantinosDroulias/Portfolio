@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
 from django.utils.text import slugify
 
-from .models import Category, Post, Profile, SiteSettings, Tag
+from .models import Category, Post, Profile, Project, SiteSettings, Tag
 
 TOPICS = [("Website", "Website"), ("E-shop", "E-shop"), ("Business system", "Business system"), ("Something else", "Something else")]
 
@@ -155,3 +155,10 @@ class NewUserForm(forms.Form):
         pw = self.cleaned_data["password"]
         validate_password(pw)
         return pw
+
+
+class ProjectForm(forms.ModelForm):
+    class Meta:
+        model = Project
+        fields = ["title", "kind", "year", "summary", "stack", "url", "link_label", "order", "published"]
+        widgets = {"summary": forms.Textarea(attrs={"rows": 4})}

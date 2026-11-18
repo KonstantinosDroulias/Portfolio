@@ -6,6 +6,7 @@
         <li><a href="{% url 'home' %}"{% if nav == 'home' %} aria-current="page"{% endif %}>Home</a></li>
         <li><a href="{% url 'writing' %}"{% if nav == 'writing' %} aria-current="page"{% endif %}>Writing</a></li>
         <li><a href="{% url 'work' %}"{% if nav == 'work' %} aria-current="page"{% endif %}>Work</a></li>
+        <li><a href="{% url 'projects' %}"{% if nav == 'projects' %} aria-current="page"{% endif %}>Projects</a></li>
         <li><a href="{% url 'about' %}"{% if nav == 'about' %} aria-current="page"{% endif %}>About</a></li>
         <li><a href="{% url 'contact' %}"{% if nav == 'contact' %} aria-current="page"{% endif %}>Contact</a></li>
       </ul>

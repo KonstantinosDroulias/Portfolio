@@ -18,7 +18,7 @@ class StaticSitemap(Https):
     changefreq = "monthly"
 
     def items(self):
-        return ["home", "writing", "work", "about", "contact", "privacy"]
+        return ["home", "writing", "work", "projects", "about", "contact", "privacy"]
 
     def location(self, item):
         return reverse(item)

@@ -142,3 +142,35 @@ class PasswordRuleTests(TestCase):
         for bad in ["Smyrni2", "smyrni26", "SMYRNI26", "Smyrnios"]:
             with self.assertRaises(ValidationError, msg=bad):
                 validate_password(bad)
+
+
+class WorkAndProjectsTests(TestCase):
+    def test_work_timeline_and_projects_page(self):
+        from .models import Project
+        r = self.client.get("/work/")
+        self.assertContains(r, "Lead developer")
+        self.assertNotContains(r, "StickerPro")
+        self.assertNotContains(r, "Movie Recommender")
+        Project.objects.create(title="Hidden one", summary="x", published=False)
+        r = self.client.get("/projects/")
+        self.assertContains(r, "Movie Recommender")
+        self.assertContains(r, "scikit-learn")
+        self.assertNotContains(r, "Hidden one")
+        self.assertContains(self.client.get("/llms.txt"), "## Projects")
+
+
+class ProjectCmsTests(TestCase):
+    def test_owner_adds_and_edits_project(self):
+        from .models import Project
+        u = get_user_model().objects.create_superuser("owner", "o@example.com", "Passw0rdx")
+        self.client.force_login(u)
+        self.assertContains(self.client.get("/admin/projects/"), "Movie Recommender")
+        self.assertContains(self.client.get("/admin/projects/new/"), "Add project")
+        r = self.client.post("/admin/projects/new/", {"title": "Quick Notes", "kind": "Web app", "year": "2026",
+                                                       "summary": "A note pad.", "stack": "Go", "url": "", "link_label": "",
+                                                       "order": 5, "published": "on"})
+        p = Project.objects.get(title="Quick Notes")
+        self.assertRedirects(r, f"/admin/projects/{p.pk}/")
+        self.assertContains(self.client.get("/projects/"), "Quick Notes")
+        self.client.post(f"/admin/projects/{p.pk}/delete/")
+        self.assertFalse(Project.objects.filter(pk=p.pk).exists())

@@ -1,0 +1,31 @@
+{% extends "cms/base.html" %}
+{% block title %}{% if project.pk %}{{ project.title }}{% else %}New project{% endif %}{% endblock %}
+{% block main %}
+<header class="cms-head">
+  <div><p class="label"><a href="{% url 'cms:projects' %}">Projects</a></p><h1>{% if project.pk %}{{ project.title }}{% else %}New project{% endif %}</h1></div>
+  {% if project.pk %}<a class="btn" href="{% url 'projects' %}" target="_blank">View page ↗</a>{% endif %}
+</header>
+
+<form method="post" class="cms-block settings-form" data-guard>
+  {% csrf_token %}
+  <div class="fields">
+    {% include "cms/_field.html" with f=form.title %}
+    {% include "cms/_field.html" with f=form.kind %}
+    {% include "cms/_field.html" with f=form.summary wide=1 %}
+    {% include "cms/_field.html" with f=form.stack wide=1 %}
+    {% include "cms/_field.html" with f=form.year %}
+    {% include "cms/_field.html" with f=form.order %}
+    {% include "cms/_field.html" with f=form.url %}
+    {% include "cms/_field.html" with f=form.link_label %}
+  </div>
+  <label class="check"><input type="checkbox" name="{{ form.published.html_name }}" id="{{ form.published.id_for_label }}"{% if form.published.value %} checked{% endif %}> Show on the site</label>
+  <div class="savebar"><a class="btn" href="{% if project.pk %}{% url 'cms:project_edit' project.pk %}{% else %}{% url 'cms:project_new' %}{% endif %}" data-discard hidden>Discard changes</a><button class="btn btn--solid" type="submit">{% if project.pk %}Save changes{% else %}Add project{% endif %}</button></div>
+</form>
+
+{% if project.pk %}
+<form method="post" action="{% url 'cms:project_delete' project.pk %}" class="danger" onsubmit="return confirm('Delete “{{ project.title|escapejs }}”? This can\'t be undone.')">
+  {% csrf_token %}<button class="btn btn--danger" type="submit">Delete project</button>
+</form>
+{% endif %}
+{% endblock %}
+{% block scripts %}{% load static %}<script src="{% static 'js/cms.js' %}" defer></script>{% endblock %}
