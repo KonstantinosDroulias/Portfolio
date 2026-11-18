@@ -2,11 +2,7 @@
 
 # Everything below is paid or business work. Side projects live in the CMS (Projects).
 EXPERIENCE = [
-    {"years": "2026 — now", "role": "Founder · side project", "org": "BuildMySite", "url": "https://buildmysite.gr", "domain": "buildmysite.gr",
-     "desc": "A multi-tenant platform that builds and hosts fast, search-friendly websites for small businesses, "
-             "on a monthly plan.",
-     "built": []},
-    {"years": "2025 — now", "role": "Founder", "org": "DKN Media", "url": "https://dknmedia.gr", "domain": "dknmedia.gr",
+    {"years": "2026 — now", "role": "Founder", "org": "DKN Media", "url": "https://dknmedia.gr", "domain": "dknmedia.gr",
      "desc": "Consulting first, then the complete system: websites, e-shops, client portals and the admin tools behind "
              "them, for Greek businesses.",
      "built": [
@@ -15,6 +11,10 @@ EXPERIENCE = [
          {"name": "Website check", "kind": "Go", "url": "", "domain": "",
           "desc": "A free tool on dknmedia.gr that checks a site's SEO, accessibility, e-shop basics and speed."},
      ]},
+    {"years": "2026 — now", "role": "Founder · side project", "org": "BuildMySite", "url": "https://buildmysite.gr", "domain": "buildmysite.gr",
+     "desc": "A multi-tenant platform that builds and hosts fast, search-friendly websites for small businesses, "
+             "on a monthly plan.",
+     "built": []},
     {"years": "2024 — now", "role": "Lead developer", "org": "Mygrafistas", "url": "https://mygrafistaseshop.gr", "domain": "mygrafistaseshop.gr",
      "desc": "The family printing business since 2006: DTF transfers, stickers, apparel and promotional products. "
              "I build and run its stores and the systems behind them.",
